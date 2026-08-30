@@ -164,9 +164,9 @@ export default async function HomePage() {
         <div className="absolute inset-y-0 right-0 z-0 w-full md:w-[65%] lg:w-[60%] overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/atelier.jpg"
-            alt="Artisan crafting jewellery"
-            className="h-full w-full object-cover object-right"
+            src="/images/story.jpg"
+            alt="Prem by SHK Story"
+            className="h-full w-full object-cover object-center"
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 w-full sm:w-3/5 bg-gradient-to-r from-[#FAF6F3] via-[#FAF6F3]/90 to-transparent" />
         </div>

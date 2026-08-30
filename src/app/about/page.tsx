@@ -69,9 +69,9 @@ export default function AboutPage() {
           <div className="overflow-hidden rounded-sm">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/atelier.jpg"
-              alt="Artisan at work"
-              className="h-[420px] w-full object-cover"
+              src="/images/story.jpg"
+              alt="Prem by SHK Story"
+              className="h-[420px] w-full object-cover object-center"
             />
           </div>
         </div>
