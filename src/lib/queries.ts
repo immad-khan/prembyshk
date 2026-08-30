@@ -4,6 +4,7 @@ import { categories, products, reviews } from "@/db/schema";
 import { seedDatabase } from "@/db/seed";
 import type { Category, Product, Review } from "@/db/schema";
 import { productCategories } from "@/lib/categories";
+import { getMemoryCategories, getMemoryProducts } from "@/lib/memory-store";
 
 function matchesCategory(slug: string) {
   return or(
@@ -16,37 +17,46 @@ let seedPromise: Promise<unknown> | null = null;
 
 export async function ensureSeeded() {
   if (!seedPromise) {
-    seedPromise = seedDatabase().catch((error) => {
-      seedPromise = null;
-      throw error;
-    });
+    seedPromise = seedDatabase().catch(() => null);
   }
   return seedPromise;
 }
 
 export async function getCategories(): Promise<Category[]> {
-  await ensureSeeded();
-  return db.select().from(categories).orderBy(asc(categories.sortOrder));
+  try {
+    await ensureSeeded();
+    return await db.select().from(categories).orderBy(asc(categories.sortOrder));
+  } catch {
+    return getMemoryCategories();
+  }
 }
 
 export async function getBestSellers(limit = 6): Promise<Product[]> {
-  await ensureSeeded();
-  return db
-    .select()
-    .from(products)
-    .where(eq(products.isBestSeller, true))
-    .orderBy(desc(products.reviewCount))
-    .limit(limit);
+  try {
+    await ensureSeeded();
+    return await db
+      .select()
+      .from(products)
+      .where(eq(products.isBestSeller, true))
+      .orderBy(desc(products.reviewCount))
+      .limit(limit);
+  } catch {
+    return getMemoryProducts().filter((p) => p.isBestSeller).slice(0, limit);
+  }
 }
 
 export async function getNewArrivals(limit = 4): Promise<Product[]> {
-  await ensureSeeded();
-  return db
-    .select()
-    .from(products)
-    .where(eq(products.isNew, true))
-    .orderBy(desc(products.id))
-    .limit(limit);
+  try {
+    await ensureSeeded();
+    return await db
+      .select()
+      .from(products)
+      .where(eq(products.isNew, true))
+      .orderBy(desc(products.id))
+      .limit(limit);
+  } catch {
+    return getMemoryProducts().filter((p) => p.isNew).slice(0, limit);
+  }
 }
 
 export type ShopFilters = {
@@ -58,96 +68,149 @@ export type ShopFilters = {
 };
 
 export async function getProducts(filters: ShopFilters = {}): Promise<Product[]> {
-  await ensureSeeded();
+  try {
+    await ensureSeeded();
 
-  const conditions = [];
-  if (filters.category && filters.category !== "all") {
-    conditions.push(matchesCategory(filters.category));
-  }
-  if (filters.q) {
-    const term = `%${filters.q}%`;
-    conditions.push(
-      or(
-        ilike(products.name, term),
-        ilike(products.shortDescription, term),
-        ilike(products.material, term),
-      ),
-    );
-  }
-  if (typeof filters.min === "number") {
-    conditions.push(gte(products.price, filters.min));
-  }
-  if (typeof filters.max === "number") {
-    conditions.push(lte(products.price, filters.max));
-  }
-
-  const orderBy = (() => {
-    switch (filters.sort) {
-      case "price-asc":
-        return asc(products.price);
-      case "price-desc":
-        return desc(products.price);
-      case "rating":
-        return desc(products.rating);
-      case "newest":
-        return desc(products.id);
-      default:
-        return desc(products.reviewCount);
+    const conditions = [];
+    if (filters.category && filters.category !== "all") {
+      conditions.push(matchesCategory(filters.category));
     }
-  })();
+    if (filters.q) {
+      const term = `%${filters.q}%`;
+      conditions.push(
+        or(
+          ilike(products.name, term),
+          ilike(products.shortDescription, term),
+          ilike(products.material, term),
+        ),
+      );
+    }
+    if (typeof filters.min === "number") {
+      conditions.push(gte(products.price, filters.min));
+    }
+    if (typeof filters.max === "number") {
+      conditions.push(lte(products.price, filters.max));
+    }
 
-  const query = db.select().from(products);
-  if (conditions.length > 0) {
-    return query.where(and(...conditions)).orderBy(orderBy);
+    const orderBy = (() => {
+      switch (filters.sort) {
+        case "price-asc":
+          return asc(products.price);
+        case "price-desc":
+          return desc(products.price);
+        case "rating":
+          return desc(products.rating);
+        case "newest":
+          return desc(products.id);
+        default:
+          return desc(products.reviewCount);
+      }
+    })();
+
+    const query = db.select().from(products);
+    if (conditions.length > 0) {
+      return await query.where(and(...conditions)).orderBy(orderBy);
+    }
+    return await query.orderBy(orderBy);
+  } catch {
+    let list = [...getMemoryProducts()];
+    if (filters.category && filters.category !== "all") {
+      list = list.filter((p) => productCategories(p).includes(filters.category!));
+    }
+    if (filters.q) {
+      const q = filters.q.toLowerCase();
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.shortDescription.toLowerCase().includes(q) ||
+          p.material.toLowerCase().includes(q),
+      );
+    }
+    if (typeof filters.min === "number") list = list.filter((p) => p.price >= filters.min!);
+    if (typeof filters.max === "number") list = list.filter((p) => p.price <= filters.max!);
+
+    if (filters.sort === "price-asc") list.sort((a, b) => a.price - b.price);
+    else if (filters.sort === "price-desc") list.sort((a, b) => b.price - a.price);
+    else if (filters.sort === "rating") list.sort((a, b) => b.rating - a.rating);
+    else if (filters.sort === "newest") list.sort((a, b) => b.id - a.id);
+    else list.sort((a, b) => b.reviewCount - a.reviewCount);
+
+    return list;
   }
-  return query.orderBy(orderBy);
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  await ensureSeeded();
-  const rows = await db
-    .select()
-    .from(products)
-    .where(eq(products.slug, slug))
-    .limit(1);
-  return rows[0] ?? null;
+  try {
+    await ensureSeeded();
+    const rows = await db
+      .select()
+      .from(products)
+      .where(eq(products.slug, slug))
+      .limit(1);
+    return rows[0] ?? null;
+  } catch {
+    return getMemoryProducts().find((p) => p.slug === slug) ?? null;
+  }
 }
 
 export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
   if (slugs.length === 0) return [];
-  await ensureSeeded();
-  return db.select().from(products).where(inArray(products.slug, slugs));
+  try {
+    await ensureSeeded();
+    return await db.select().from(products).where(inArray(products.slug, slugs));
+  } catch {
+    return getMemoryProducts().filter((p) => slugs.includes(p.slug));
+  }
 }
 
 export async function getRelatedProducts(
   product: Product,
   limit = 4,
 ): Promise<Product[]> {
-  await ensureSeeded();
-  const cats = productCategories(product);
-  const categoryMatch =
-    cats.length === 1
-      ? matchesCategory(cats[0])
-      : or(...cats.map((slug) => matchesCategory(slug)));
+  try {
+    await ensureSeeded();
+    const cats = productCategories(product);
+    const categoryMatch =
+      cats.length === 1
+        ? matchesCategory(cats[0])
+        : or(...cats.map((slug) => matchesCategory(slug)));
 
-  return db
-    .select()
-    .from(products)
-    .where(and(categoryMatch, sql`${products.slug} <> ${product.slug}`))
-    .limit(limit);
+    return await db
+      .select()
+      .from(products)
+      .where(and(categoryMatch, sql`${products.slug} <> ${product.slug}`))
+      .limit(limit);
+  } catch {
+    const cats = productCategories(product);
+    return getMemoryProducts()
+      .filter(
+        (p) =>
+          p.slug !== product.slug &&
+          productCategories(p).some((c) => cats.includes(c)),
+      )
+      .slice(0, limit);
+  }
 }
 
 export async function getReviews(slug: string): Promise<Review[]> {
-  await ensureSeeded();
-  return db
-    .select()
-    .from(reviews)
-    .where(eq(reviews.productSlug, slug))
-    .orderBy(desc(reviews.createdAt));
+  try {
+    await ensureSeeded();
+    return await db
+      .select()
+      .from(reviews)
+      .where(eq(reviews.productSlug, slug))
+      .orderBy(desc(reviews.createdAt));
+  } catch {
+    return [];
+  }
 }
 
 export async function getAllProductSlugs(): Promise<string[]> {
-  await ensureSeeded();
-  const rows = await db.select({ slug: products.slug }).from(products);
-  return rows.map((row) => row.slug);
+  try {
+    await ensureSeeded();
+    const rows = await db.select({ slug: products.slug }).from(products);
+    return rows.map((row) => row.slug);
+  } catch {
+    return getMemoryProducts().map((p) => p.slug);
+  }
 }

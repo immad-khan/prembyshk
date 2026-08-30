@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { uploads } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { addMemoryUpload } from "@/lib/memory-store";
 
 export const dynamic = "force-dynamic";
 
@@ -41,18 +42,30 @@ export async function POST(request: Request) {
       );
     }
 
-    const inserted = await db
-      .insert(uploads)
-      .values({
+    try {
+      const inserted = await db
+        .insert(uploads)
+        .values({
+          originalName: body.fileName ?? "upload",
+          mimeType: mime,
+          sizeBytes,
+          dataBase64: body.dataBase64,
+        })
+        .returning();
+
+      const url = `/api/admin/uploads/${inserted[0].id}`;
+      return NextResponse.json({ url, id: inserted[0].id });
+    } catch {
+      const memoryItem = addMemoryUpload({
         originalName: body.fileName ?? "upload",
         mimeType: mime,
         sizeBytes,
         dataBase64: body.dataBase64,
-      })
-      .returning();
+      });
 
-    const url = `/api/admin/uploads/${inserted[0].id}`;
-    return NextResponse.json({ url, id: inserted[0].id });
+      const url = `/api/admin/uploads/${memoryItem.id}`;
+      return NextResponse.json({ url, id: memoryItem.id });
+    }
   } catch (error) {
     console.error("upload error", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { products } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { ensureSeeded } from "@/lib/queries";
+import { addMemoryProduct, getMemoryProducts } from "@/lib/memory-store";
 
 export const dynamic = "force-dynamic";
 
@@ -81,7 +82,7 @@ export async function GET(request: Request) {
     const all = await db.select().from(products);
     return NextResponse.json({ products: all });
   } catch {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ products: getMemoryProducts() });
   }
 }
 
@@ -97,20 +98,33 @@ export async function POST(request: Request) {
       );
     }
 
-    const existing = await db
-      .select()
-      .from(products)
-      .where(eq(products.slug, clean.slug));
+    try {
+      const existing = await db
+        .select()
+        .from(products)
+        .where(eq(products.slug, clean.slug));
 
-    if (existing.length > 0) {
-      return NextResponse.json(
-        { error: "A product with this slug already exists." },
-        { status: 409 },
-      );
+      if (existing.length > 0) {
+        return NextResponse.json(
+          { error: "A product with this slug already exists." },
+          { status: 409 },
+        );
+      }
+
+      const result = await db.insert(products).values(clean).returning();
+      addMemoryProduct(result[0]);
+      return NextResponse.json({ product: result[0] });
+    } catch {
+      const existingMemory = getMemoryProducts().find((p) => p.slug === clean.slug);
+      if (existingMemory) {
+        return NextResponse.json(
+          { error: "A product with this slug already exists." },
+          { status: 409 },
+        );
+      }
+      const created = addMemoryProduct({ ...clean, stock: clean.stock ?? 24, createdAt: new Date() });
+      return NextResponse.json({ product: created });
     }
-
-    const result = await db.insert(products).values(clean).returning();
-    return NextResponse.json({ product: result[0] });
   } catch (error) {
     console.error("admin product create error", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

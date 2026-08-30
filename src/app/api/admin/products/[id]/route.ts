@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { deleteMemoryProduct, updateMemoryProduct } from "@/lib/memory-store";
 
 export const dynamic = "force-dynamic";
 
@@ -94,17 +95,27 @@ export async function PUT(
       );
     }
 
-    const result = await db
-      .update(products)
-      .set(clean)
-      .where(eq(products.id, idNum))
-      .returning();
+    try {
+      const result = await db
+        .update(products)
+        .set(clean)
+        .where(eq(products.id, idNum))
+        .returning();
 
-    if (result.length === 0) {
+      if (result.length > 0) {
+        updateMemoryProduct(idNum, clean);
+        return NextResponse.json({ product: result[0] });
+      }
+    } catch {
+      // Fall through to memory store
+    }
+
+    const updated = updateMemoryProduct(idNum, clean);
+    if (!updated) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ product: result[0] });
+    return NextResponse.json({ product: updated });
   } catch (error) {
     console.error("admin product update error", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
@@ -122,7 +133,14 @@ export async function DELETE(
     if (Number.isNaN(idNum)) {
       return NextResponse.json({ error: "Invalid id" }, { status: 400 });
     }
-    await db.delete(products).where(eq(products.id, idNum));
+
+    try {
+      await db.delete(products).where(eq(products.id, idNum));
+    } catch {
+      // Fall through to memory store
+    }
+
+    deleteMemoryProduct(idNum);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
