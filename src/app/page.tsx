@@ -160,52 +160,52 @@ export default async function HomePage() {
       </section>
 
       {/* STORY */}
-      <section className="relative overflow-hidden bg-white">
-        <div className="absolute inset-0 z-0 flex justify-end">
+      <section className="relative overflow-hidden bg-[#FAF6F3]">
+        <div className="absolute inset-y-0 right-0 z-0 w-full md:w-[65%] lg:w-[60%] overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/atelier.jpg"
             alt="Artisan crafting jewellery"
-            className="h-full w-full object-cover object-right md:w-[75%] lg:w-[70%]"
+            className="h-full w-full object-cover object-right"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent md:w-1/2 lg:hidden" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-full sm:w-3/5 bg-gradient-to-r from-[#FAF6F3] via-[#FAF6F3]/90 to-transparent" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:py-20 lg:px-8">
-          <div className="max-w-xl">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8">
+          <div className="max-w-md lg:max-w-lg">
             <p className="eyebrow tracking-[0.25em] text-rose-deep font-medium">CRAFTED TO BE CHERISHED</p>
-            <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-ink leading-tight font-light">
+            <h2 className="mt-2 font-serif text-3xl sm:text-4xl text-ink leading-tight font-light">
               The Beauty Behind<br />
               <span className="italic">Every Detail</span>
             </h2>
-            <span className="hairline mt-3 block w-12 bg-rose-light" />
-            <p className="mt-5 text-xs sm:text-sm leading-relaxed text-ink-soft max-w-lg">
+            <span className="hairline mt-2.5 block w-12 bg-rose-light" />
+            <p className="mt-4 text-xs sm:text-sm leading-relaxed text-ink-soft">
               At Prem by SHK, each creation is a celebration of artistry, heritage and intention. Our master artisans handcraft every piece using ethically sourced gold and conflict-free diamonds, ensuring exceptional quality that lasts a lifetime.
             </p>
 
-            <div className="mt-8 grid grid-cols-3 gap-4 text-center max-w-md">
+            <div className="mt-6 grid grid-cols-3 gap-3 text-center max-w-sm sm:max-w-md">
               <div className="flex flex-col items-center">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
-                  <GemIcon className="h-5 w-5" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
+                  <GemIcon className="h-4.5 w-4.5" />
                 </div>
-                <p className="mt-3 text-[0.7rem] font-medium tracking-wide uppercase text-ink">Ethically Sourced</p>
-                <p className="text-[0.62rem] text-muted">Materials</p>
+                <p className="mt-2.5 text-[0.68rem] font-medium tracking-wide uppercase text-ink">Ethically Sourced</p>
+                <p className="text-[0.6rem] text-muted">Materials</p>
               </div>
 
               <div className="flex flex-col items-center">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
-                  <SparklesIcon className="h-5 w-5" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
+                  <SparklesIcon className="h-4.5 w-4.5" />
                 </div>
-                <p className="mt-3 text-[0.7rem] font-medium tracking-wide uppercase text-ink">Handcrafted by</p>
-                <p className="text-[0.62rem] text-muted">Master Artisans</p>
+                <p className="mt-2.5 text-[0.68rem] font-medium tracking-wide uppercase text-ink">Handcrafted by</p>
+                <p className="text-[0.6rem] text-muted">Master Artisans</p>
               </div>
 
               <div className="flex flex-col items-center">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
-                  <BadgeCheckIcon className="h-5 w-5" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
+                  <BadgeCheckIcon className="h-4.5 w-4.5" />
                 </div>
-                <p className="mt-3 text-[0.7rem] font-medium tracking-wide uppercase text-ink">Heirloom Quality</p>
-                <p className="text-[0.62rem] text-muted">Guaranteed</p>
+                <p className="mt-2.5 text-[0.68rem] font-medium tracking-wide uppercase text-ink">Heirloom Quality</p>
+                <p className="text-[0.6rem] text-muted">Guaranteed</p>
               </div>
             </div>
           </div>
