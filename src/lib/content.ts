@@ -40,7 +40,7 @@ export const JOURNAL = [
     slug: "choosing-your-signature-earring",
     title: "Choosing Your Signature Earring",
     date: "May 12, 2026",
-    image: "/images/p-hoops.jpg",
+    image: "https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
     excerpt:
       "From weightless hoops to sculpted blooms — how to find the pair that becomes entirely yours.",
   },
@@ -48,7 +48,7 @@ export const JOURNAL = [
     slug: "summer-jewellery-trends",
     title: "Summer Jewellery Trends to Love",
     date: "Apr 28, 2026",
-    image: "/images/p-pearlshell.jpg",
+    image: "https://images.pexels.com/photos/10581780/pexels-photo-10581780.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
     excerpt:
       "Mother-of-pearl, warm gold and soft blush enamel are defining the season. Here is how to wear them.",
   },
@@ -56,7 +56,7 @@ export const JOURNAL = [
     slug: "inside-our-atelier",
     title: "Inside Our Atelier",
     date: "Apr 16, 2026",
-    image: "/images/atelier.jpg",
+    image: "https://images.pexels.com/photos/8105129/pexels-photo-8105129.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
     excerpt:
       "A morning with the artisans who hand-finish every bloom, bud and bezel that leaves our studio.",
   },
@@ -64,7 +64,7 @@ export const JOURNAL = [
     slug: "the-art-of-gift-giving",
     title: "The Art of Gift Giving",
     date: "Apr 02, 2026",
-    image: "/images/banner-gift.jpg",
+    image: "https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
     excerpt:
       "Blush boxes, hand-tied ribbon and a note in your own words — the details that make a gift unforgettable.",
   },
@@ -103,24 +103,24 @@ export const COLLECTION_BANNERS = [
     title: "Modern Heirlooms",
     body: "Timeless pieces for every generation.",
     href: "/shop?category=rings",
-    image: "/images/p-rings.jpg",
+    image: "https://images.pexels.com/photos/18092913/pexels-photo-18092913.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
   },
   {
     title: "Colour of Elegance",
     body: "Enamel treasures that speak in colour.",
     href: "/shop?category=earrings",
-    image: "/images/p-tulip.jpg",
+    image: "https://images.pexels.com/photos/19869443/pexels-photo-19869443.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
   },
   {
     title: "Everyday Essentials",
     body: "Refined designs for your everyday glow.",
     href: "/shop?category=bracelets",
-    image: "/images/p-bangles.jpg",
+    image: "https://images.pexels.com/photos/10828766/pexels-photo-10828766.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
   },
   {
     title: "Forever Begins Here",
     body: "Gift sets for your forever story.",
     href: "/shop?category=sets",
-    image: "/images/banner-gift.jpg",
+    image: "https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
   },
 ];

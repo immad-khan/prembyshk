@@ -68,7 +68,7 @@ export default function AppointmentPage() {
         <div className="mt-10 overflow-hidden rounded-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/banner-gift.jpg"
+            src="https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900"
             alt="Signature blush packaging"
             className="h-56 w-full object-cover"
           />

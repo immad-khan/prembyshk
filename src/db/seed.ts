@@ -3,16 +3,16 @@ import { db } from "@/db";
 import { categories, products, reviews } from "@/db/schema";
 
 const P = {
-  tulip: "/images/p-tulip.jpg",
-  shell: "/images/p-pearlshell.jpg",
-  hoops: "/images/p-hoops.jpg",
-  bangles: "/images/p-bangles.jpg",
-  rings: "/images/p-rings.jpg",
-  pearlset: "/images/p-pearlset.jpg",
-  onyx: "/images/p-onyx.jpg",
-  gift: "/images/banner-gift.jpg",
-  atelier: "/images/atelier.jpg",
-  hero: "/images/hero.jpg",
+  tulip: "https://images.pexels.com/photos/19869443/pexels-photo-19869443.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  shell: "https://images.pexels.com/photos/10581780/pexels-photo-10581780.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  hoops: "https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  bangles: "https://images.pexels.com/photos/10828766/pexels-photo-10828766.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  rings: "https://images.pexels.com/photos/18092913/pexels-photo-18092913.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  pearlset: "https://images.pexels.com/photos/8100401/pexels-photo-8100401.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  onyx: "https://images.pexels.com/photos/27902413/pexels-photo-27902413.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  gift: "https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  atelier: "https://images.pexels.com/photos/8105129/pexels-photo-8105129.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  hero: "https://images.pexels.com/photos/27902413/pexels-photo-27902413.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
 };
 
 const px = (id: number) =>

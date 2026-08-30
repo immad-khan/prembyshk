@@ -13,7 +13,7 @@ import { categoryLabel, productCategories } from "@/lib/categories";
 
 export function ProductDetail({ product }: { product: Product }) {
   const { toggleWishlist, isWishlisted } = useCart();
-  const images = product.images.length > 0 ? product.images : ["/images/p-hoops.jpg"];
+  const images = product.images.length > 0 ? product.images : ["https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900"];
   const [activeImage, setActiveImage] = useState(images[0]);
   const [variant, setVariant] = useState(product.colors[0] ?? "Gold");
   const wished = isWishlisted(product.slug);

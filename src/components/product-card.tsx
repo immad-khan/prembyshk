@@ -17,7 +17,7 @@ export function ProductCard({
   priority?: boolean;
 }) {
   const { toggleWishlist, isWishlisted } = useCart();
-  const image = product.images[0] ?? "/images/p-hoops.jpg";
+  const image = product.images[0] ?? "https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900";
   const hover = product.images[1] ?? image;
   const wished = isWishlisted(product.slug);
 
