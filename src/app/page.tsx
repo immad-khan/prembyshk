@@ -160,20 +160,20 @@ export default async function HomePage() {
       </section>
 
       {/* STORY */}
-      <section className="relative overflow-hidden bg-[#FAF6F3]">
+      <section className="relative overflow-hidden bg-white">
         <div className="absolute inset-0 z-0 flex justify-end">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/atelier.jpg"
             alt="Artisan crafting jewellery"
-            className="h-full w-full object-cover object-right md:w-[70%] lg:w-[65%]"
+            className="h-full w-full object-cover object-right md:w-[75%] lg:w-[70%]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FAF6F3] via-[#FAF6F3]/95 to-transparent md:via-[#FAF6F3]/85 lg:via-[#FAF6F3]/65" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent md:w-1/2 lg:hidden" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:py-20 lg:px-8">
           <div className="max-w-xl">
-            <p className="eyebrow tracking-[0.25em] text-rose-deep">CRAFTED TO BE CHERISHED</p>
+            <p className="eyebrow tracking-[0.25em] text-rose-deep font-medium">CRAFTED TO BE CHERISHED</p>
             <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-ink leading-tight font-light">
               The Beauty Behind<br />
               <span className="italic">Every Detail</span>
@@ -185,7 +185,7 @@ export default async function HomePage() {
 
             <div className="mt-8 grid grid-cols-3 gap-4 text-center max-w-md">
               <div className="flex flex-col items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-rose-light/50 bg-cream/90 text-rose-deep shadow-xs">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
                   <GemIcon className="h-5 w-5" />
                 </div>
                 <p className="mt-3 text-[0.7rem] font-medium tracking-wide uppercase text-ink">Ethically Sourced</p>
@@ -193,7 +193,7 @@ export default async function HomePage() {
               </div>
 
               <div className="flex flex-col items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-rose-light/50 bg-cream/90 text-rose-deep shadow-xs">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
                   <SparklesIcon className="h-5 w-5" />
                 </div>
                 <p className="mt-3 text-[0.7rem] font-medium tracking-wide uppercase text-ink">Handcrafted by</p>
@@ -201,7 +201,7 @@ export default async function HomePage() {
               </div>
 
               <div className="flex flex-col items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-rose-light/50 bg-cream/90 text-rose-deep shadow-xs">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
                   <BadgeCheckIcon className="h-5 w-5" />
                 </div>
                 <p className="mt-3 text-[0.7rem] font-medium tracking-wide uppercase text-ink">Heirloom Quality</p>
