@@ -79,21 +79,21 @@ export default async function HomePage() {
             <Link
               key={category.slug}
               href={`/shop?category=${category.slug}`}
-              className="group flex flex-col items-center rounded-sm border border-line/70 bg-blush-soft/50 p-4 transition hover:border-rose-light hover:bg-blush-soft"
+              className="group flex flex-col items-center rounded-lg border border-line/60 bg-cream/90 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-rose-light hover:bg-cream hover:shadow-md"
             >
-              <div className="h-24 w-24 overflow-hidden rounded-full border border-line bg-cream">
+              <div className="h-32 w-full overflow-hidden rounded-md bg-blush-soft">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={category.imageUrl}
                   alt={category.name}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
-              <p className="mt-4 text-[0.68rem] tracking-[0.22em] uppercase text-ink">
+              <p className="mt-4 font-medium text-[0.72rem] tracking-[0.24em] uppercase text-ink">
                 {category.name}
               </p>
-              <span className="mt-1 text-rose-light transition-transform group-hover:translate-x-1">
-                <ArrowRight className="h-3.5 w-3.5" />
+              <span className="mt-1 text-[0.6rem] tracking-[0.3em] text-rose-light">
+                — ◆ —
               </span>
             </Link>
           ))}
@@ -107,7 +107,7 @@ export default async function HomePage() {
             <Link
               key={banner.title}
               href={banner.href}
-              className="group relative flex h-56 flex-col justify-between overflow-hidden rounded-sm p-6"
+              className="group relative flex h-60 flex-col justify-between overflow-hidden rounded-lg p-6 shadow-sm"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -115,15 +115,15 @@ export default async function HomePage() {
                 alt={banner.title}
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/25 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
               <div className="relative">
                 <h3 className="font-serif text-2xl text-cream">{banner.title}</h3>
               </div>
               <div className="relative">
-                <p className="max-w-[85%] text-xs leading-relaxed text-cream/85">
+                <p className="max-w-[90%] text-xs leading-relaxed text-cream/90">
                   {banner.body}
                 </p>
-                <span className="mt-3 inline-flex items-center gap-2 text-[0.62rem] tracking-[0.24em] uppercase text-cream">
+                <span className="mt-3 inline-flex items-center gap-2 text-[0.62rem] tracking-[0.24em] uppercase text-cream font-medium">
                   Explore
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </span>
@@ -145,7 +145,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/shop"
-            className="group flex items-center gap-2 text-[0.66rem] tracking-[0.22em] uppercase text-rose-deep"
+            className="group flex items-center gap-2 text-[0.66rem] tracking-[0.22em] uppercase text-rose-deep font-medium"
           >
             View all best sellers
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -184,14 +184,14 @@ export default async function HomePage() {
               ].map((item) => (
                 <div key={item.title}>
                   <span className="block h-px w-8 bg-rose-light" />
-                  <p className="mt-3 text-sm text-ink">{item.title}</p>
+                  <p className="mt-3 text-sm font-serif font-medium text-ink">{item.title}</p>
                   <p className="mt-1 text-xs text-muted">{item.body}</p>
                 </div>
               ))}
             </div>
             <Link
               href="/about"
-              className="mt-9 inline-flex w-fit items-center gap-3 border-b border-rose pb-1 text-[0.66rem] tracking-[0.24em] uppercase text-rose-deep transition hover:gap-5"
+              className="mt-9 inline-flex w-fit items-center gap-3 border-b border-rose pb-1 text-[0.66rem] tracking-[0.24em] uppercase text-rose-deep font-medium transition hover:gap-5"
             >
               Read our story <ArrowRight className="h-4 w-4" />
             </Link>
@@ -208,14 +208,19 @@ export default async function HomePage() {
       </section>
 
       {/* PROMISES */}
-      <section className="border-y border-line bg-cream">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-12 md:grid-cols-3 lg:grid-cols-5 lg:px-8">
+      <section className="bg-cream-deep/40 py-12 border-y border-line/60">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 md:grid-cols-3 lg:grid-cols-5 lg:px-8">
           {PROMISES.map((promise) => {
             const Icon = PROMISE_ICONS[promise.icon];
             return (
-              <div key={promise.title} className="flex flex-col items-center text-center">
-                <Icon className="h-7 w-7 text-rose" />
-                <p className="mt-3 text-sm text-ink">{promise.title}</p>
+              <div
+                key={promise.title}
+                className="flex flex-col items-center rounded-lg border border-line/60 bg-cream/95 p-5 text-center transition hover:border-rose-light hover:shadow-md"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blush-soft text-rose-deep">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <p className="mt-3 font-serif text-sm font-medium text-ink">{promise.title}</p>
                 <p className="mt-1 text-xs leading-relaxed text-muted">
                   {promise.body}
                 </p>

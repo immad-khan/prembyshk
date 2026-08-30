@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { Product } from "@/db/schema";
 import { useCart } from "@/components/cart-provider";
-import { HeartIcon } from "@/components/icons";
+import { BagIcon, HeartIcon } from "@/components/icons";
 import { Stars } from "@/components/stars";
 import { WhatsAppMark } from "@/components/whatsapp-mark";
 import { formatPrice } from "@/lib/format";
@@ -16,7 +16,7 @@ export function ProductCard({
   product: Product;
   priority?: boolean;
 }) {
-  const { toggleWishlist, isWishlisted } = useCart();
+  const { toggleWishlist, isWishlisted, addItem } = useCart();
   const image = product.images[0] ?? "https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900";
   const hover = product.images[1] ?? image;
   const wished = isWishlisted(product.slug);
@@ -66,16 +66,32 @@ export function ProductCard({
           <HeartIcon className="h-4 w-4" filled={wished} />
         </button>
 
-        <a
-          href={whatsappLink(message)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Chat on WhatsApp about ${product.name}`}
-          className="absolute right-3 bottom-3 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-rose-deep to-rose text-cream shadow-sm transition-all duration-300 hover:scale-105 sm:h-auto sm:w-auto sm:translate-y-3 sm:gap-2 sm:px-3 sm:py-2 sm:text-[0.6rem] sm:tracking-[0.14em] sm:uppercase sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100"
-        >
-          <WhatsAppMark className="h-4 w-4" />
-          <span className="hidden sm:inline">Chat on WhatsApp</span>
-        </a>
+        <div className="absolute right-3 bottom-3 flex items-center gap-2">
+          <button
+            aria-label="Quick add to cart"
+            onClick={() =>
+              addItem({
+                slug: product.slug,
+                name: product.name,
+                price: product.price,
+                image,
+                variant: product.colors[0] ?? "Gold",
+              })
+            }
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-cream/95 text-ink shadow-md transition-all duration-300 hover:bg-rose-deep hover:text-cream hover:scale-105"
+          >
+            <BagIcon className="h-4 w-4" />
+          </button>
+          <a
+            href={whatsappLink(message)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Chat on WhatsApp about ${product.name}`}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-rose-deep to-rose text-cream shadow-md transition-all duration-300 hover:scale-105"
+          >
+            <WhatsAppMark className="h-4 w-4" />
+          </a>
+        </div>
       </div>
 
       <div className="mt-3 flex flex-col gap-1">
