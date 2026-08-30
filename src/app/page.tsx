@@ -21,7 +21,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 -z-20">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.pexels.com/photos/27902413/pexels-photo-27902413.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900"
+            src="/images/hero.jpg"
             alt="Model wearing Prem by SHK gold jewellery"
             className="h-full w-full object-cover object-[78%_25%] sm:object-[70%_center] lg:object-center"
           />

@@ -12,7 +12,7 @@ const P = {
   onyx: "https://images.pexels.com/photos/27902413/pexels-photo-27902413.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
   gift: "https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
   atelier: "https://images.pexels.com/photos/8105129/pexels-photo-8105129.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
-  hero: "https://images.pexels.com/photos/27902413/pexels-photo-27902413.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+  hero: "/images/hero.jpg",
 };
 
 const px = (id: number) =>
