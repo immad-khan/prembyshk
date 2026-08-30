@@ -47,7 +47,7 @@ type ProductPayload = {
   isBestSeller?: boolean;
 };
 
-function sanitizePayload(body: ProductPayload) {
+function sanitize(body: ProductPayload) {
   const cats = normalizeCategories(body);
   if (!cats) return null;
   return {
@@ -56,9 +56,7 @@ function sanitizePayload(body: ProductPayload) {
     categorySlug: cats.categorySlug,
     categorySlugs: cats.categorySlugs,
     price: Math.max(0, Math.round(Number(body.price) || 0)),
-    compareAtPrice: body.compareAtPrice
-      ? Math.max(0, Math.round(Number(body.compareAtPrice) || 0))
-      : null,
+    compareAtPrice: body.compareAtPrice ? Math.max(0, Math.round(Number(body.compareAtPrice))) : null,
     shortDescription: body.shortDescription ?? "",
     description: body.description ?? "",
     material: body.material ?? "",
@@ -82,39 +80,29 @@ export async function PUT(
   try {
     const { id } = await params;
     const idNum = parseInt(id, 10);
-    if (Number.isNaN(idNum)) {
-      return NextResponse.json({ error: "Invalid id" }, { status: 400 });
-    }
+    if (Number.isNaN(idNum)) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
 
     const body = (await request.json()) as ProductPayload;
-    const clean = sanitizePayload(body);
+    const clean = sanitize(body);
     if (!clean || !clean.name || !clean.slug || clean.price <= 0) {
-      return NextResponse.json(
-        { error: "Name, slug, category and price are required." },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Name, slug, category and price are required." }, { status: 400 });
     }
 
-    try {
-      const result = await db
-        .update(products)
-        .set(clean)
-        .where(eq(products.id, idNum))
-        .returning();
-
-      if (result.length > 0) {
-        updateMemoryProduct(idNum, clean);
-        return NextResponse.json({ product: result[0] });
+    // Try DB first, fall back to memory
+    if (db) {
+      try {
+        const result = await db.update(products).set(clean).where(eq(products.id, idNum)).returning();
+        if (result.length > 0) {
+          updateMemoryProduct(idNum, clean);
+          return NextResponse.json({ product: result[0] });
+        }
+      } catch {
+        // fall through
       }
-    } catch {
-      // Fall through to memory store
     }
 
     const updated = updateMemoryProduct(idNum, clean);
-    if (!updated) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-
+    if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json({ product: updated });
   } catch (error) {
     console.error("admin product update error", error);
@@ -130,14 +118,14 @@ export async function DELETE(
   try {
     const { id } = await params;
     const idNum = parseInt(id, 10);
-    if (Number.isNaN(idNum)) {
-      return NextResponse.json({ error: "Invalid id" }, { status: 400 });
-    }
+    if (Number.isNaN(idNum)) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
 
-    try {
-      await db.delete(products).where(eq(products.id, idNum));
-    } catch {
-      // Fall through to memory store
+    if (db) {
+      try {
+        await db.delete(products).where(eq(products.id, idNum));
+      } catch {
+        // fall through
+      }
     }
 
     deleteMemoryProduct(idNum);

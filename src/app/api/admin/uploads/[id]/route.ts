@@ -13,38 +13,24 @@ export async function GET(
   try {
     const { id } = await params;
     const idNum = parseInt(id, 10);
-    if (Number.isNaN(idNum)) {
-      return NextResponse.json({ error: "Invalid id" }, { status: 400 });
-    }
+    if (Number.isNaN(idNum)) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
 
     let mimeType = "";
     let dataBase64 = "";
 
-    try {
-      const rows = await db
-        .select()
-        .from(uploads)
-        .where(eq(uploads.id, idNum));
-
-      if (rows[0]) {
-        mimeType = rows[0].mimeType;
-        dataBase64 = rows[0].dataBase64;
-      }
-    } catch {
-      // Fall through to memory store
+    if (db) {
+      try {
+        const rows = await db.select().from(uploads).where(eq(uploads.id, idNum));
+        if (rows[0]) { mimeType = rows[0].mimeType; dataBase64 = rows[0].dataBase64; }
+      } catch { /* fall through */ }
     }
 
     if (!dataBase64) {
       const mem = getMemoryUpload(idNum);
-      if (mem) {
-        mimeType = mem.mimeType;
-        dataBase64 = mem.dataBase64;
-      }
+      if (mem) { mimeType = mem.mimeType; dataBase64 = mem.dataBase64; }
     }
 
-    if (!dataBase64) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
+    if (!dataBase64) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     const buffer = Buffer.from(dataBase64, "base64");
     return new NextResponse(buffer, {
