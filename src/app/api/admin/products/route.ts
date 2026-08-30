@@ -3,8 +3,12 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { ensureSeeded } from "@/lib/queries";
-import { addMemoryProduct, getMemoryProducts } from "@/lib/memory-store";
+import {
+  addMemoryProduct,
+  getMemoryProducts,
+  updateMemoryProduct,
+  deleteMemoryProduct,
+} from "@/lib/memory-store";
 
 export const dynamic = "force-dynamic";
 
@@ -48,7 +52,7 @@ type ProductPayload = {
   isBestSeller?: boolean;
 };
 
-function sanitizePayload(body: ProductPayload) {
+function sanitize(body: ProductPayload) {
   const cats = normalizeCategories(body);
   if (!cats) return null;
   return {
@@ -57,9 +61,7 @@ function sanitizePayload(body: ProductPayload) {
     categorySlug: cats.categorySlug,
     categorySlugs: cats.categorySlugs,
     price: Math.max(0, Math.round(Number(body.price) || 0)),
-    compareAtPrice: body.compareAtPrice
-      ? Math.max(0, Math.round(Number(body.compareAtPrice) || 0))
-      : null,
+    compareAtPrice: body.compareAtPrice ? Math.max(0, Math.round(Number(body.compareAtPrice))) : null,
     shortDescription: body.shortDescription ?? "",
     description: body.description ?? "",
     material: body.material ?? "",
@@ -77,8 +79,8 @@ function sanitizePayload(body: ProductPayload) {
 
 export async function GET(request: Request) {
   if (!(await isAdminAuthenticated(request))) return unauthorized();
+  if (!db) return NextResponse.json({ products: getMemoryProducts() });
   try {
-    await ensureSeeded();
     const all = await db.select().from(products);
     return NextResponse.json({ products: all });
   } catch {
@@ -90,43 +92,44 @@ export async function POST(request: Request) {
   if (!(await isAdminAuthenticated(request))) return unauthorized();
   try {
     const body = (await request.json()) as ProductPayload;
-    const clean = sanitizePayload(body);
+    const clean = sanitize(body);
     if (!clean || !clean.name || !clean.slug || clean.price <= 0) {
-      return NextResponse.json(
-        { error: "Name, slug, at least one category and price are required." },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Name, slug, category and price are required." }, { status: 400 });
+    }
+
+    if (!db) {
+      if (getMemoryProducts().find((p) => p.slug === clean.slug)) {
+        return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
+      }
+      const created = addMemoryProduct({ ...clean, createdAt: new Date() });
+      return NextResponse.json({ product: created });
     }
 
     try {
-      const existing = await db
-        .select()
-        .from(products)
-        .where(eq(products.slug, clean.slug));
-
+      const existing = await db.select().from(products).where(eq(products.slug, clean.slug));
       if (existing.length > 0) {
-        return NextResponse.json(
-          { error: "A product with this slug already exists." },
-          { status: 409 },
-        );
+        return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
       }
-
       const result = await db.insert(products).values(clean).returning();
       addMemoryProduct(result[0]);
       return NextResponse.json({ product: result[0] });
     } catch {
-      const existingMemory = getMemoryProducts().find((p) => p.slug === clean.slug);
-      if (existingMemory) {
-        return NextResponse.json(
-          { error: "A product with this slug already exists." },
-          { status: 409 },
-        );
+      if (getMemoryProducts().find((p) => p.slug === clean.slug)) {
+        return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
       }
-      const created = addMemoryProduct({ ...clean, stock: clean.stock ?? 24, createdAt: new Date() });
+      const created = addMemoryProduct({ ...clean, createdAt: new Date() });
       return NextResponse.json({ product: created });
     }
   } catch (error) {
     console.error("admin product create error", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
+}
+
+export async function PUT(request: Request) {
+  return NextResponse.json({ error: "Use /api/admin/products/[id]" }, { status: 405 });
+}
+
+export async function DELETE(request: Request) {
+  return NextResponse.json({ error: "Use /api/admin/products/[id]" }, { status: 405 });
 }
