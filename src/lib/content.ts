@@ -56,7 +56,7 @@ export const JOURNAL = [
     slug: "inside-our-atelier",
     title: "Inside Our Atelier",
     date: "Apr 16, 2026",
-    image: "https://images.pexels.com/photos/8105129/pexels-photo-8105129.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+    image: "/images/atelier.jpg",
     excerpt:
       "A morning with the artisans who hand-finish every bloom, bud and bezel that leaves our studio.",
   },

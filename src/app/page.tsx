@@ -199,7 +199,7 @@ export default async function HomePage() {
           <div className="relative min-h-[320px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://images.pexels.com/photos/8105129/pexels-photo-8105129.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900"
+              src="/images/atelier.jpg"
               alt="Artisan hand-finishing a gold ring"
               className="h-full w-full object-cover"
             />
