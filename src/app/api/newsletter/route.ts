@@ -11,7 +11,9 @@ export async function POST(request: Request) {
     if (!email || !email.includes("@")) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 });
     }
-    await db.insert(subscribers).values({ email }).onConflictDoNothing();
+    if (db) {
+      await db.insert(subscribers).values({ email }).onConflictDoNothing();
+    }
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });

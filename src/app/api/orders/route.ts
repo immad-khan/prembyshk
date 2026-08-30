@@ -70,25 +70,27 @@ export async function POST(request: Request) {
     const shipping = shippingFor(subtotal);
     const number = orderNumber();
 
-    await db.insert(orders).values({
-      orderNumber: number,
-      customerName: payload.customerName,
-      email: payload.email,
-      phone: payload.phone ?? "",
-      address: payload.address ?? "",
-      city: payload.city ?? "",
-      postalCode: payload.postalCode ?? "",
-      country: payload.country ?? "Pakistan",
-      note: payload.note ?? "",
-      subtotal,
-      shipping,
-      total: subtotal + shipping,
-      status: "confirmed",
-    });
+    if (db) {
+      await db.insert(orders).values({
+        orderNumber: number,
+        customerName: payload.customerName,
+        email: payload.email,
+        phone: payload.phone ?? "",
+        address: payload.address ?? "",
+        city: payload.city ?? "",
+        postalCode: payload.postalCode ?? "",
+        country: payload.country ?? "Pakistan",
+        note: payload.note ?? "",
+        subtotal,
+        shipping,
+        total: subtotal + shipping,
+        status: "confirmed",
+      });
 
-    await db
-      .insert(orderItems)
-      .values(priced.map((item) => ({ ...item, orderNumber: number })));
+      await db
+        .insert(orderItems)
+        .values(priced.map((item) => ({ ...item, orderNumber: number })));
+    }
 
     return NextResponse.json({ orderNumber: number, total: subtotal + shipping });
   } catch (error) {

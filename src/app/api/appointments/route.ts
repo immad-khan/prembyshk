@@ -21,13 +21,15 @@ export async function POST(request: Request) {
       );
     }
 
-    await db.insert(appointments).values({
-      name: body.name,
-      email: body.email,
-      phone: body.phone ?? "",
-      preferredDate: body.preferredDate ?? "",
-      message: body.message ?? "",
-    });
+    if (db) {
+      await db.insert(appointments).values({
+        name: body.name,
+        email: body.email,
+        phone: body.phone ?? "",
+        preferredDate: body.preferredDate ?? "",
+        message: body.message ?? "",
+      });
+    }
 
     return NextResponse.json({ ok: true });
   } catch {

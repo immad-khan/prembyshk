@@ -13,6 +13,16 @@ type Params = Promise<{ number: string }>;
 export default async function OrderPage({ params }: { params: Params }) {
   const { number } = await params;
 
+  if (!db) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-16 text-center">
+        <h1 className="font-serif text-3xl text-ink">Order Confirmed</h1>
+        <p className="mt-3 text-sm text-ink-soft">Your order reference: {number}</p>
+        <Link href="/shop" className="mt-6 inline-block rounded-sm bg-rose-deep px-6 py-3 text-[0.68rem] tracking-[0.2em] uppercase text-cream">Continue Shopping</Link>
+      </div>
+    );
+  }
+
   const orderRows = await db
     .select()
     .from(orders)

@@ -595,6 +595,7 @@ const REVIEW_SEED = [
 ];
 
 export async function seedDatabase() {
+  if (!db) return { seeded: false };
   const existing = await db
     .select({ count: sql<number>`count(*)::int` })
     .from(products);

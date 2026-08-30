@@ -101,7 +101,7 @@ export async function POST(request: Request) {
       if (getMemoryProducts().find((p) => p.slug === clean.slug)) {
         return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
       }
-      const created = addMemoryProduct({ ...clean, createdAt: new Date() });
+      const created = addMemoryProduct(clean);
       return NextResponse.json({ product: created });
     }
 
@@ -117,7 +117,7 @@ export async function POST(request: Request) {
       if (getMemoryProducts().find((p) => p.slug === clean.slug)) {
         return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
       }
-      const created = addMemoryProduct({ ...clean, createdAt: new Date() });
+      const created = addMemoryProduct(clean);
       return NextResponse.json({ product: created });
     }
   } catch (error) {
