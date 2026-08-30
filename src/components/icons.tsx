@@ -127,6 +127,23 @@ export function GemIcon(props: IconProps) {
   );
 }
 
+export function SparklesIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3v3m0 12v3M3 12h3m12 0h3m-3.5-6.5L16 8m-8 8-1.5 1.5m0-11L8 8m8 8 1.5 1.5M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" />
+    </svg>
+  );
+}
+
+export function BadgeCheckIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9Z" />
+      <path d="m8.5 12.5 2.5 2.5 5-5" />
+    </svg>
+  );
+}
+
 export function LockIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
