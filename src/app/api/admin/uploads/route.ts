@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { uploads } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { addMemoryUpload, getMemoryUpload } from "@/lib/memory-store";
+import { addMemoryUpload } from "@/lib/memory-store";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +38,12 @@ export async function POST(request: Request) {
       try {
         const inserted = await db
           .insert(uploads)
-          .values({ originalName: body.fileName ?? "upload", mimeType: mime, sizeBytes, dataBase64: body.dataBase64 })
+          .values({
+            originalName: body.fileName ?? "upload",
+            mimeType: mime,
+            sizeBytes,
+            dataBase64: body.dataBase64,
+          })
           .returning();
         const url = `/api/admin/uploads/${inserted[0].id}`;
         return NextResponse.json({ url, id: inserted[0].id });
@@ -57,45 +61,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ url: `/api/admin/uploads/${mem.id}`, id: mem.id });
   } catch (error) {
     console.error("upload error", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
-}
-
-export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
-    const idNum = parseInt(id, 10);
-    if (Number.isNaN(idNum)) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
-
-    let mimeType = "";
-    let dataBase64 = "";
-
-    if (db) {
-      try {
-        const rows = await db.select().from(uploads).where(eq(uploads.id, idNum));
-        if (rows[0]) { mimeType = rows[0].mimeType; dataBase64 = rows[0].dataBase64; }
-      } catch { /* fall through */ }
-    }
-
-    if (!dataBase64) {
-      const mem = getMemoryUpload(idNum);
-      if (mem) { mimeType = mem.mimeType; dataBase64 = mem.dataBase64; }
-    }
-
-    if (!dataBase64) return NextResponse.json({ error: "Not found" }, { status: 404 });
-
-    const buffer = Buffer.from(dataBase64, "base64");
-    return new NextResponse(buffer, {
-      headers: {
-        "Content-Type": mimeType || "image/jpeg",
-        "Content-Length": buffer.length.toString(),
-        "Cache-Control": "public, max-age=31536000, immutable",
-      },
-    });
-  } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
