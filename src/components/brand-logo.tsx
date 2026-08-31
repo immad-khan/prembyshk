@@ -8,9 +8,9 @@ export function BrandLogo({
   className?: string;
 }) {
   const scale = {
-    sm: { script: "text-2xl", sub: "text-[0.5rem]", pad: "px-3 py-1" },
-    md: { script: "text-4xl", sub: "text-[0.58rem]", pad: "px-4 py-1.5" },
-    lg: { script: "text-6xl", sub: "text-[0.7rem]", pad: "px-6 py-2" },
+    sm: { script: "text-3xl sm:text-4xl", sub: "text-[0.58rem] sm:text-[0.64rem]", pad: "px-4 py-1.5" },
+    md: { script: "text-4xl sm:text-5xl", sub: "text-[0.66rem] sm:text-[0.72rem]", pad: "px-5 py-2" },
+    lg: { script: "text-6xl sm:text-7xl", sub: "text-[0.78rem] sm:text-[0.85rem]", pad: "px-7 py-2.5" },
   }[size];
 
   return (
