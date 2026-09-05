@@ -178,7 +178,7 @@ export default async function HomePage() {
             </h2>
             <span className="hairline mt-2.5 block w-12 bg-rose-light" />
             <p className="mt-4 text-xs sm:text-sm leading-relaxed text-ink-soft">
-              At Prem by SHK, each creation is a celebration of artistry, heritage and intention. Our master artisans handcraft every piece using ethically sourced gold and conflict-free diamonds, ensuring exceptional quality that lasts a lifetime.
+              At Prem by SHK, every piece tells a story of artistry, heritage, and intention. Thoughtfully crafted with an eye for detail, our designs are made to complement your most cherished moments and become part of your story.
             </p>
 
             <div className="mt-6 grid grid-cols-3 gap-3 text-center max-w-sm sm:max-w-md">
