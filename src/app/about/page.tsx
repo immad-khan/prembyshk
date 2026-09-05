@@ -49,15 +49,22 @@ export default function AboutPage() {
             <p className="mt-6 max-w-lg text-sm leading-relaxed text-ink-soft">
               Prem by SHK began with a simple belief — that beautiful jewellery
               should be something you actually wear. Not saved for one night a
-              year, but reached for every morning. We work with a small circle
-              of artisans to create pieces in warm gold, natural mother-of-pearl
-              and hand-poured enamel, finished to a standard we would happily
-              gift to our own families.
+              year, but reached for every morning. We create thoughtfully
+              designed pieces that bring effortless elegance to everyday
+              moments, special occasions, and everything in between.
             </p>
             <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink-soft">
-              Every collection is released in limited batches, quality checked
-              by hand and packed in our signature blush box with a hand-tied
-              rose gold ribbon.
+              Working with skilled artisans and paying close attention to every
+              detail, we create jewellery that reflects our love for timeless
+              design, individuality, and everyday beauty. Each piece is
+              carefully checked before it makes its way to you, because we
+              believe quality should always be felt in the details.
+            </p>
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink-soft">
+              Our collections are released in limited batches, allowing us to
+              focus on thoughtful design and consistent quality while giving
+              every piece a sense of individuality. Beautifully presented and
+              ready to become part of your story.
             </p>
             <Link
               href="/shop"
