@@ -9,7 +9,6 @@ import { CartDrawer } from "@/components/cart-drawer";
 import { useCart } from "@/components/cart-provider";
 import {
   BagIcon,
-  CalendarIcon,
   CloseIcon,
   HeartIcon,
   MenuIcon,
@@ -53,18 +52,8 @@ export function SiteHeader() {
   return (
     <>
       <div className="border-b border-line/60 bg-cream-deep text-ink-soft">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-[0.64rem] tracking-[0.18em] uppercase lg:px-8">
-          <div className="hidden sm:block text-muted">Ethical luxury, beautifully crafted</div>
-          <p className="mx-auto text-center sm:mx-0">
-            Complimentary insured shipping on all orders
-          </p>
-          <Link
-            href="/appointment"
-            className="hidden items-center gap-1.5 font-medium text-rose-deep transition hover:text-ink sm:flex"
-          >
-            <CalendarIcon className="h-3.5 w-3.5" />
-            Book an Appointment
-          </Link>
+        <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-2 text-[0.64rem] tracking-[0.18em] uppercase lg:px-8">
+          <p className="text-center text-muted">Ethical luxury, beautifully crafted</p>
         </div>
       </div>
 
