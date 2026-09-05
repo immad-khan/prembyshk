@@ -77,11 +77,6 @@ export const PROMISES = [
     icon: "gem",
   },
   {
-    title: "Secure Payment",
-    body: "Your transactions are encrypted and safe.",
-    icon: "lock",
-  },
-  {
     title: "Signature Packaging",
     body: "Blush keepsake boxes for every order.",
     icon: "gift",
