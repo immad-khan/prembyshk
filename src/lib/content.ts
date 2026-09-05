@@ -12,25 +12,25 @@ export const TESTIMONIALS = [
   {
     quote:
       "The craftsmanship is simply unmatched. My tulip earrings are even more beautiful in person and arrived in the most elegant packaging. Truly a luxurious experience.",
-    author: "Isabella N.",
+    author: "Zill e Huma",
     location: "Karachi",
   },
   {
     quote:
       "I ordered the Perla Blossom set for my anniversary and my wife was speechless. Thank you for helping me make the moment unforgettable.",
-    author: "Ethan R.",
+    author: "Adan Shahzad",
     location: "Dubai",
   },
   {
     quote:
       "From the quality to the service, everything was perfect. Prem by SHK is now my go-to for every special occasion and every gift I give.",
-    author: "Sophia L.",
+    author: "Areeba Tariq",
     location: "Lahore",
   },
   {
     quote:
       "The Aurora bangle stack looks like a hundred bangles and weighs nothing at all. Six months on and it still shines like the first day.",
-    author: "Mahnoor A.",
+    author: "Faha Maryam",
     location: "Islamabad",
   },
 ];
