@@ -44,9 +44,7 @@ export default async function HomePage() {
               </span>
             </h1>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-soft sm:mt-6 sm:text-[0.95rem]">
-              Exquisite designs, masterfully crafted for life&rsquo;s most meaningful
-              moments — hand-finished in warm gold, mother-of-pearl and
-              hand-poured enamel.
+              Exquisite designs, thoughtfully crafted to make life&rsquo;s most meaningful moments even more memorable.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-4 sm:mt-8">
               <Link
