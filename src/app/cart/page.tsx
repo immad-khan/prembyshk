@@ -108,7 +108,7 @@ export default function CartPage() {
               <div className="flex justify-between text-ink-soft">
                 <dt>Shipping</dt>
                 <dd className="text-ink">
-                  {shipping === 0 ? "Complimentary" : formatPrice(shipping)}
+                  {formatPrice(shipping)}
                 </dd>
               </div>
               <div className="flex justify-between border-t border-line pt-4 font-serif text-2xl text-ink">

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useCart } from "@/components/cart-provider";
 import { CloseIcon, BagIcon } from "@/components/icons";
 import {
-  FREE_SHIPPING_THRESHOLD,
   formatPrice,
   shippingFor,
 } from "@/lib/format";
@@ -14,8 +13,6 @@ export function CartDrawer() {
     useCart();
 
   const shipping = shippingFor(subtotal);
-  const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
-  const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
 
   return (
     <div
@@ -41,19 +38,7 @@ export function CartDrawer() {
           </button>
         </div>
 
-        <div className="border-b border-line bg-blush-soft/60 px-6 py-3">
-          <p className="text-[0.68rem] tracking-[0.14em] uppercase text-rose-deep">
-            {remaining > 0
-              ? `Add ${formatPrice(remaining)} for free shipping`
-              : "You have unlocked complimentary shipping"}
-          </p>
-          <div className="mt-2 h-1 w-full rounded-full bg-line">
-            <div
-              className="h-1 rounded-full bg-gradient-to-r from-rose-deep to-rose transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
+        <div className="border-b border-line bg-blush-soft/60 px-6 py-3" />
 
         <div className="flex-1 overflow-y-auto px-6 py-5">
           {items.length === 0 ? (
@@ -156,7 +141,7 @@ export function CartDrawer() {
             <div className="mt-1 flex items-center justify-between text-sm text-ink-soft">
               <span>Shipping</span>
               <span className="text-ink">
-                {shipping === 0 ? "Complimentary" : formatPrice(shipping)}
+                {formatPrice(shipping)}
               </span>
             </div>
             <div className="mt-3 flex items-center justify-between border-t border-line pt-3 font-serif text-xl text-ink">

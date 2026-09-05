@@ -13,7 +13,7 @@ const SECTIONS = [
   {
     id: "shipping",
     title: "Shipping & Delivery",
-    body: "Orders are hand-packed within 24 hours. Nationwide delivery takes 2–4 working days and is complimentary on orders over Rs 5,000. International shipping is available on request.",
+    body: "Orders are hand-packed within 24 hours. Nationwide delivery takes 2–4 working days. International shipping is available on request.",
   },
   {
     id: "returns",

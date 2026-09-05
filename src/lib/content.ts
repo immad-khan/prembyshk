@@ -88,7 +88,7 @@ export const PROMISES = [
   },
   {
     title: "Nationwide Delivery",
-    body: "Complimentary insured shipping over Rs 5,000.",
+    body: "Insured shipping to your door.",
     icon: "globe",
   },
   {

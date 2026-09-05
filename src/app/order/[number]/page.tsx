@@ -86,9 +86,7 @@ export default async function OrderPage({ params }: { params: Params }) {
           <div className="flex justify-between text-ink-soft">
             <dt>Shipping</dt>
             <dd className="text-ink">
-              {order.shipping === 0
-                ? "Complimentary"
-                : formatPrice(order.shipping)}
+              {formatPrice(order.shipping)}
             </dd>
           </div>
           <div className="flex justify-between border-t border-line pt-4 font-serif text-2xl text-ink">

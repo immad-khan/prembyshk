@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Product } from "@/db/schema";
 import { useCart } from "@/components/cart-provider";
-import { HeartIcon, TruckIcon, GiftIcon, ReturnIcon } from "@/components/icons";
+import { HeartIcon, GiftIcon, ReturnIcon } from "@/components/icons";
 import { Stars } from "@/components/stars";
 import { WhatsAppMark } from "@/components/whatsapp-mark";
 import { formatPrice, formatRating } from "@/lib/format";
@@ -150,10 +150,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </button>
         </div>
 
-        <div className="mt-6 grid gap-3 border-y border-line py-5 text-xs text-ink-soft sm:grid-cols-3">
-          <p className="flex items-center gap-2">
-            <TruckIcon className="h-4 w-4 text-rose" /> Free shipping over Rs 5,000
-          </p>
+        <div className="mt-6 grid gap-3 border-y border-line py-5 text-xs text-ink-soft sm:grid-cols-2">
           <p className="flex items-center gap-2">
             <GiftIcon className="h-4 w-4 text-rose" /> Signature gift packaging
           </p>
