@@ -32,8 +32,8 @@ export function SiteFooter() {
         <div>
           <BrandLogo size="md" className="!items-start" />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-soft">
-            Hand-finished fashion jewellery in warm gold, mother-of-pearl and
-            hand-poured enamel. Made in small batches, packaged with love.
+            Distinctive designs, carefully crafted with an eye for detail.
+            Made in small batches and packaged with love.
           </p>
           <div className="mt-6 flex gap-3">
             {[InstagramIcon, FacebookIcon, WhatsappIcon].map((Icon, i) => (
