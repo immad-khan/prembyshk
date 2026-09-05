@@ -18,7 +18,7 @@ const SHOP_LINKS = [
 ];
 
 const CARE_LINKS = [
-  { label: "Book an Appointment", href: "/appointment" },
+  { label: "Contact Us", href: "/appointment" },
   { label: "Shipping & Delivery", href: "/about#shipping" },
   { label: "Returns & Exchanges", href: "/about#returns" },
   { label: "Jewellery Care", href: "/about#care" },

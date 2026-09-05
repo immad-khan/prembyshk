@@ -129,7 +129,7 @@ export function SiteHeader() {
               href="/appointment"
               className="hidden rounded-sm bg-gradient-to-r from-rose-deep to-rose px-5 py-2.5 text-[0.66rem] font-medium tracking-[0.2em] uppercase text-cream transition hover:from-rose hover:to-rose-deep xl:block"
             >
-              Private Consultation
+              Contact Us
             </Link>
           </div>
         </div>
@@ -197,7 +197,7 @@ export function SiteHeader() {
               onClick={() => setMenuOpen(false)}
               className="mt-8 block rounded-sm bg-rose-deep px-5 py-3 text-center text-[0.68rem] tracking-[0.22em] uppercase text-cream"
             >
-              Private Consultation
+              Contact Us
             </Link>
           </div>
         </div>

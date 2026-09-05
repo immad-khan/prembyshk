@@ -23,7 +23,7 @@ export default function AccountPage() {
         {[
           { icon: BagIcon, label: "Shopping Bag", href: "/cart" },
           { icon: HeartIcon, label: "Wishlist", href: "/wishlist" },
-          { icon: UserIcon, label: "Book a Consultation", href: "/appointment" },
+          { icon: UserIcon, label: "Contact Us", href: "/appointment" },
         ].map((tile) => (
           <Link
             key={tile.label}

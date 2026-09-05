@@ -12,7 +12,6 @@ export default function AppointmentPage() {
     name: "",
     email: "",
     phone: "",
-    preferredDate: "",
     message: "",
   });
 
@@ -27,7 +26,7 @@ export default function AppointmentPage() {
       });
       if (!res.ok) throw new Error("failed");
       setStatus("done");
-      setForm({ name: "", email: "", phone: "", preferredDate: "", message: "" });
+      setForm({ name: "", email: "", phone: "", message: "" });
     } catch {
       setStatus("error");
     }
@@ -36,24 +35,23 @@ export default function AppointmentPage() {
   return (
     <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 lg:grid-cols-2 lg:px-8">
       <div>
-        <p className="eyebrow">Private Consultation</p>
+        <p className="eyebrow">Get in Touch</p>
         <h1 className="mt-3 font-serif text-5xl leading-tight font-light text-ink">
-          Book an
+          Contact
           <span className="block font-script text-5xl rose-gradient-text">
-            Appointment
+            Us
           </span>
         </h1>
         <span className="hairline mt-5 block w-20" />
         <p className="mt-6 max-w-md text-sm leading-relaxed text-ink-soft">
-          Spend an hour with our styling team — in studio or over video — to
-          choose the pieces that suit you, plan a gift, or design something
-          entirely bespoke for a wedding or milestone.
+          Have a question about our pieces, an order, or a bespoke request? Send
+          us a message and our team will get back to you within one working day.
         </p>
 
         <ul className="mt-8 space-y-4 text-sm text-ink-soft">
           <li className="flex items-start gap-3">
             <GemIcon className="mt-0.5 h-5 w-5 shrink-0 text-rose" />
-            One-to-one styling with our in-house jewellery consultant.
+            We answer all enquiries within one working day.
           </li>
           <li className="flex items-start gap-3">
             <CalendarIcon className="mt-0.5 h-5 w-5 shrink-0 text-rose" />
@@ -79,18 +77,12 @@ export default function AppointmentPage() {
         onSubmit={submit}
         className="h-fit rounded-sm border border-line bg-cream p-8"
       >
-        <h2 className="font-serif text-2xl text-ink">Request your slot</h2>
+        <h2 className="font-serif text-2xl text-ink">Contact form</h2>
         <div className="mt-6 space-y-5">
           {[
             { key: "name", label: "Full name", type: "text", required: true },
             { key: "email", label: "Email", type: "email", required: true },
             { key: "phone", label: "Phone / WhatsApp", type: "tel", required: false },
-            {
-              key: "preferredDate",
-              label: "Preferred date",
-              type: "date",
-              required: false,
-            },
           ].map((field) => (
             <label key={field.key} className="block">
               <span className="text-[0.66rem] tracking-[0.18em] uppercase text-muted">
@@ -110,7 +102,7 @@ export default function AppointmentPage() {
           ))}
           <label className="block">
             <span className="text-[0.66rem] tracking-[0.18em] uppercase text-muted">
-              What are you looking for?
+              Notes
             </span>
             <textarea
               rows={4}
@@ -128,12 +120,12 @@ export default function AppointmentPage() {
           disabled={status === "loading"}
           className="mt-8 w-full rounded-sm bg-gradient-to-r from-rose-deep to-rose px-8 py-4 text-[0.7rem] tracking-[0.24em] uppercase text-cream transition hover:from-rose hover:to-rose-deep disabled:opacity-60"
         >
-          {status === "loading" ? "Sending…" : "Request appointment"}
+          {status === "loading" ? "Sending…" : "Send message"}
         </button>
 
         {status === "done" && (
           <p className="mt-4 text-sm text-rose-deep">
-            Thank you — we will confirm your appointment within one working day.
+            Thank you — we will be in touch within one working day.
           </p>
         )}
         {status === "error" && (
