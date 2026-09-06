@@ -18,8 +18,8 @@ export const TESTIMONIALS = [
   {
     quote:
       "I ordered the Perla Blossom set for my anniversary and my wife was speechless. Thank you for helping me make the moment unforgettable.",
-    author: "Adan Shahzad",
-    location: "Dubai",
+    author: "Ahmed Ali Shah",
+    location: "Rawalpindi",
   },
   {
     quote:
