@@ -11,9 +11,12 @@ const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 async function uploadToCloudinary(base64Data: string, mime: string): Promise<string | null> {
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  const apiKey = process.env.CLOUDINARY_API_KEY;
-  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+  const cloudName =
+    process.env.CLOUDINARY_CLOUD_NAME ||
+    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
+    "hvt6foh0";
+  const apiKey = process.env.CLOUDINARY_API_KEY || "212378614522658";
+  const apiSecret = process.env.CLOUDINARY_API_SECRET || "HkUkAP2xg_ChFux2i2Qq5dOG9vc";
 
   if (!cloudName || !apiKey || !apiSecret) return null;
 

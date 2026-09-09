@@ -55,25 +55,30 @@ type ProductPayload = {
 function sanitize(body: ProductPayload) {
   const cats = normalizeCategories(body);
   if (!cats) return null;
+  const numRating = Number(body.rating);
+  const numReview = Number(body.reviewCount);
+  const numStock = Number(body.stock);
+  const numCompare = Number(body.compareAtPrice);
+
   return {
     slug: body.slug.trim(),
     name: body.name.trim(),
     categorySlug: cats.categorySlug,
     categorySlugs: cats.categorySlugs,
     price: Math.max(0, Math.round(Number(body.price) || 0)),
-    compareAtPrice: body.compareAtPrice ? Math.max(0, Math.round(Number(body.compareAtPrice))) : null,
+    compareAtPrice: !Number.isNaN(numCompare) && numCompare > 0 ? Math.round(numCompare) : null,
     shortDescription: body.shortDescription ?? "",
     description: body.description ?? "",
     material: body.material ?? "",
-    images: body.images ?? [],
-    colors: body.colors ?? [],
-    details: body.details ?? [],
-    rating: Math.max(0, Math.min(50, Math.round(Number(body.rating) || 50))),
-    reviewCount: Math.max(0, Math.round(Number(body.reviewCount) || 0)),
-    stock: Math.max(0, Math.round(Number(body.stock) || 0)),
-    badge: body.badge || null,
-    isNew: body.isNew ?? false,
-    isBestSeller: body.isBestSeller ?? false,
+    images: Array.isArray(body.images) ? body.images : [],
+    colors: Array.isArray(body.colors) ? body.colors : [],
+    details: Array.isArray(body.details) ? body.details : [],
+    rating: !Number.isNaN(numRating) ? Math.max(0, Math.min(50, Math.round(numRating))) : 50,
+    reviewCount: !Number.isNaN(numReview) ? Math.max(0, Math.round(numReview)) : 0,
+    stock: !Number.isNaN(numStock) ? Math.max(0, Math.round(numStock)) : 24,
+    badge: body.badge?.trim() || null,
+    isNew: Boolean(body.isNew),
+    isBestSeller: Boolean(body.isBestSeller),
   };
 }
 
