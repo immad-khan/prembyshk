@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { deleteMemoryProduct, updateMemoryProduct } from "@/lib/memory-store";
+import { ensureSeeded } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -80,7 +81,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const idNum = parseInt(id, 10);
-    if (Number.isNaN(idNum)) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+    const isNumeric = !Number.isNaN(idNum);
 
     const body = (await request.json()) as ProductPayload;
     const clean = sanitize(body);
@@ -88,20 +89,31 @@ export async function PUT(
       return NextResponse.json({ error: "Name, slug, category and price are required." }, { status: 400 });
     }
 
-    // Try DB first, fall back to memory
     if (db) {
       try {
-        const result = await db.update(products).set(clean).where(eq(products.id, idNum)).returning();
+        await ensureSeeded();
+        const condition = isNumeric
+          ? or(eq(products.id, idNum), eq(products.slug, id), eq(products.slug, clean.slug))
+          : or(eq(products.slug, id), eq(products.slug, clean.slug));
+        
+        const result = await db.update(products).set(clean).where(condition).returning();
         if (result.length > 0) {
-          updateMemoryProduct(idNum, clean);
+          updateMemoryProduct(isNumeric ? idNum : id, clean);
           return NextResponse.json({ product: result[0] });
         }
-      } catch {
-        // fall through
+
+        // If not found in DB, insert/upsert new row
+        const inserted = await db.insert(products).values(clean).returning();
+        if (inserted.length > 0) {
+          updateMemoryProduct(inserted[0].id, inserted[0]);
+          return NextResponse.json({ product: inserted[0] });
+        }
+      } catch (err) {
+        console.error("DB update error", err);
       }
     }
 
-    const updated = updateMemoryProduct(idNum, clean);
+    const updated = updateMemoryProduct(isNumeric ? idNum : id, clean);
     if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json({ product: updated });
   } catch (error) {
@@ -118,17 +130,21 @@ export async function DELETE(
   try {
     const { id } = await params;
     const idNum = parseInt(id, 10);
-    if (Number.isNaN(idNum)) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+    const isNumeric = !Number.isNaN(idNum);
 
     if (db) {
       try {
-        await db.delete(products).where(eq(products.id, idNum));
+        await ensureSeeded();
+        const condition = isNumeric
+          ? or(eq(products.id, idNum), eq(products.slug, id))
+          : eq(products.slug, id);
+        await db.delete(products).where(condition);
       } catch {
         // fall through
       }
     }
 
-    deleteMemoryProduct(idNum);
+    deleteMemoryProduct(isNumeric ? idNum : id);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });

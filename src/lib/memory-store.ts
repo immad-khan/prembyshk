@@ -92,9 +92,13 @@ export function addMemoryProduct(data: Omit<Product, "id" | "createdAt">): Produ
   return newProduct;
 }
 
-export function updateMemoryProduct(id: number, data: Partial<Product>): Product | null {
+export function updateMemoryProduct(idOrSlug: number | string, data: Partial<Product>): Product | null {
   const store = getStore();
-  const index = store.products.findIndex((p) => p.id === id);
+  const index = store.products.findIndex((p) =>
+    typeof idOrSlug === "number"
+      ? p.id === idOrSlug
+      : p.slug === idOrSlug || String(p.id) === idOrSlug,
+  );
   if (index === -1) return null;
   store.products[index] = {
     ...store.products[index],
@@ -103,9 +107,13 @@ export function updateMemoryProduct(id: number, data: Partial<Product>): Product
   return store.products[index];
 }
 
-export function deleteMemoryProduct(id: number): boolean {
+export function deleteMemoryProduct(idOrSlug: number | string): boolean {
   const store = getStore();
-  const index = store.products.findIndex((p) => p.id === id);
+  const index = store.products.findIndex((p) =>
+    typeof idOrSlug === "number"
+      ? p.id === idOrSlug
+      : p.slug === idOrSlug || String(p.id) === idOrSlug,
+  );
   if (index === -1) return false;
   store.products.splice(index, 1);
   return true;

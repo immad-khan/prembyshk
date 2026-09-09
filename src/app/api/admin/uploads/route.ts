@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createHash } from "node:crypto";
 import { db } from "@/db";
 import { uploads } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
@@ -8,6 +9,37 @@ export const dynamic = "force-dynamic";
 
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+
+async function uploadToCloudinary(base64Data: string, mime: string): Promise<string | null> {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!cloudName || !apiKey || !apiSecret) return null;
+
+  try {
+    const timestamp = Math.floor(Date.now() / 1000);
+    const strToSign = `timestamp=${timestamp}${apiSecret}`;
+    const signature = createHash("sha1").update(strToSign).digest("hex");
+
+    const formData = new FormData();
+    formData.append("file", `data:${mime};base64,${base64Data}`);
+    formData.append("api_key", apiKey);
+    formData.append("timestamp", String(timestamp));
+    formData.append("signature", signature);
+
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) return null;
+    const json = (await res.json()) as { secure_url?: string };
+    return json.secure_url ?? null;
+  } catch {
+    return null;
+  }
+}
 
 export async function POST(request: Request) {
   if (!(await isAdminAuthenticated(request))) {
@@ -32,6 +64,12 @@ export async function POST(request: Request) {
     }
     if (sizeBytes > MAX_UPLOAD_BYTES) {
       return NextResponse.json({ error: "Image must be smaller than 5 MB." }, { status: 413 });
+    }
+
+    // Try Cloudinary first
+    const cloudinaryUrl = await uploadToCloudinary(body.dataBase64, mime);
+    if (cloudinaryUrl) {
+      return NextResponse.json({ url: cloudinaryUrl });
     }
 
     if (db) {

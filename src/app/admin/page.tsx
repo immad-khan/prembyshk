@@ -99,6 +99,7 @@ export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [editing, setEditing] = useState<AdminProduct | null>(null);
+  const [originalIdentifier, setOriginalIdentifier] = useState<string | number | null>(null);
   const [query, setQuery] = useState("");
   const [collectionFilter, setCollectionFilter] = useState("all");
   const [loading, setLoading] = useState(false);
@@ -255,8 +256,9 @@ export default function AdminPage() {
 
     setLoading(true);
     try {
-      const res = payload.id
-        ? await fetch(`/api/admin/products/${payload.id}`, {
+      const targetIdentifier = originalIdentifier ?? payload.id ?? payload.slug;
+      const res = originalIdentifier !== null
+        ? await fetch(`/api/admin/products/${targetIdentifier}`, {
             method: "PUT",
             credentials: "same-origin",
             headers: { "Content-Type": "application/json", ...authHeaders() },
@@ -271,6 +273,7 @@ export default function AdminPage() {
       const data = (await res.json()) as { product?: AdminProduct; error?: string };
       if (!res.ok) throw new Error(data.error || "Save failed");
       setEditing(null);
+      setOriginalIdentifier(null);
       await loadProducts();
       setNotice("Product saved successfully.");
     } catch (error) {
@@ -281,11 +284,12 @@ export default function AdminPage() {
   }
 
   async function deleteProduct(product: AdminProduct) {
-    if (!product.id) return;
+    const targetIdentifier = product.id ?? product.slug;
+    if (!targetIdentifier) return;
     if (!confirm(`Delete ${product.name}? This cannot be undone.`)) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/products/${product.id}`, {
+      const res = await fetch(`/api/admin/products/${targetIdentifier}`, {
         method: "DELETE",
         credentials: "same-origin",
         headers: authHeaders(),
@@ -301,7 +305,13 @@ export default function AdminPage() {
   }
 
   function openEditor(product?: AdminProduct) {
-    setEditing(product ? normalizeProduct(product) : blankProduct());
+    if (product) {
+      setOriginalIdentifier(product.id ?? product.slug);
+      setEditing(normalizeProduct(product));
+    } else {
+      setOriginalIdentifier(null);
+      setEditing(blankProduct());
+    }
   }
 
   function updateEditing(patch: Partial<AdminProduct>) {

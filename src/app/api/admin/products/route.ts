@@ -77,12 +77,15 @@ function sanitize(body: ProductPayload) {
   };
 }
 
+import { ensureSeeded } from "@/lib/queries";
+
 export async function GET(request: Request) {
   if (!(await isAdminAuthenticated(request))) return unauthorized();
   if (!db) return NextResponse.json({ products: getMemoryProducts() });
   try {
+    await ensureSeeded();
     const all = await db.select().from(products);
-    return NextResponse.json({ products: all });
+    return NextResponse.json({ products: all.length > 0 ? all : getMemoryProducts() });
   } catch {
     return NextResponse.json({ products: getMemoryProducts() });
   }
@@ -106,6 +109,7 @@ export async function POST(request: Request) {
     }
 
     try {
+      await ensureSeeded();
       const existing = await db.select().from(products).where(eq(products.slug, clean.slug));
       if (existing.length > 0) {
         return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
