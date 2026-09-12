@@ -201,16 +201,45 @@ export default function AdminPage() {
     }
   }
 
+  /** Compress an image file to stay well under Vercel's 1 MB body limit */
+  async function compressImage(file: File, maxBytes = 900_000): Promise<{ dataBase64: string; mimeType: string }> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        const MAX_DIM = 1500;
+        let { width, height } = img;
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width > height) { height = Math.round((height * MAX_DIM) / width); width = MAX_DIM; }
+          else { width = Math.round((width * MAX_DIM) / height); height = MAX_DIM; }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        let quality = 0.82;
+        let dataUrl = canvas.toDataURL("image/jpeg", quality);
+        // Re-compress until under limit (drop 0.1 quality each pass, min 0.4)
+        while (dataUrl.length * 0.75 > maxBytes && quality > 0.4) {
+          quality = Math.max(0.4, quality - 0.1);
+          dataUrl = canvas.toDataURL("image/jpeg", quality);
+        }
+        const dataBase64 = dataUrl.split(",")[1] ?? "";
+        resolve({ dataBase64, mimeType: "image/jpeg" });
+      };
+      img.onerror = () => reject(new Error("Could not read image"));
+      img.src = objectUrl;
+    });
+  }
+
   async function uploadImage(file: File) {
     if (!editing) return;
     setUploading(true);
     try {
-      const dataBase64 = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result).split(",")[1] || "");
-        reader.onerror = () => reject(new Error("read failed"));
-        reader.readAsDataURL(file);
-      });
+      const { dataBase64, mimeType } = await compressImage(file);
 
       const res = await fetch("/api/admin/uploads", {
         method: "POST",
@@ -218,7 +247,7 @@ export default function AdminPage() {
         headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify({
           fileName: file.name,
-          mimeType: file.type,
+          mimeType,
           dataBase64,
         }),
       });
