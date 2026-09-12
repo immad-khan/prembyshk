@@ -603,11 +603,11 @@ export default function AdminPage() {
             <div className="mt-6 grid gap-5 md:grid-cols-2">
               <label className="block">
                 <span className="text-[0.66rem] tracking-[0.18em] uppercase text-muted">Variants / Colours — one per line</span>
-                <textarea rows={4} value={listToText(editing.colors)} onChange={(e) => updateEditing({ colors: textToList(e.target.value) })} className="mt-2 w-full rounded-sm border border-line bg-transparent p-3 text-sm outline-none focus:border-rose" />
+                <textarea rows={4} defaultValue={listToText(editing.colors)} key={`colors-${editing.id ?? editing.slug}`} onBlur={(e) => updateEditing({ colors: textToList(e.target.value) })} className="mt-2 w-full rounded-sm border border-line bg-transparent p-3 text-sm outline-none focus:border-rose" />
               </label>
               <label className="block">
                 <span className="text-[0.66rem] tracking-[0.18em] uppercase text-muted">Product Details — one per line</span>
-                <textarea rows={4} value={listToText(editing.details)} onChange={(e) => updateEditing({ details: textToList(e.target.value) })} className="mt-2 w-full rounded-sm border border-line bg-transparent p-3 text-sm outline-none focus:border-rose" />
+                <textarea rows={4} defaultValue={listToText(editing.details)} key={`details-${editing.id ?? editing.slug}`} onBlur={(e) => updateEditing({ details: textToList(e.target.value) })} className="mt-2 w-full rounded-sm border border-line bg-transparent p-3 text-sm outline-none focus:border-rose" />
               </label>
             </div>
 
