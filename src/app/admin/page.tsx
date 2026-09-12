@@ -687,7 +687,7 @@ export default function AdminPage() {
                 ))}
                 <label className="flex h-24 w-24 cursor-pointer items-center justify-center rounded-sm border border-dashed border-rose-light text-center text-xs text-rose-deep hover:bg-blush-soft">
                   {uploading ? "Uploading…" : "+ Upload"}
-                  <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={(e) => { const file = e.target.files?.[0]; if (file) void uploadImage(file); e.target.value = ""; }} />
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/x-adobe-dng,image/dng,.dng" className="hidden" onChange={(e) => { const file = e.target.files?.[0]; if (file) void uploadImage(file); e.target.value = ""; }} />
                 </label>
               </div>
               <label className="mt-4 block">
