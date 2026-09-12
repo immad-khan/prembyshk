@@ -7,8 +7,14 @@ import { addMemoryUpload } from "@/lib/memory-store";
 
 export const dynamic = "force-dynamic";
 
-const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
-const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+const ALLOWED_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/x-adobe-dng",
+  "image/dng",
+]);
 
 async function uploadToCloudinary(base64Data: string, mime: string): Promise<string | null> {
   const cloudName =

@@ -235,26 +235,61 @@ export default function AdminPage() {
     });
   }
 
+  /** Upload a DNG (RAW) file directly to Cloudinary from the browser using a server-signed request */
+  async function uploadDngToCloudinary(file: File): Promise<string> {
+    // Get a fresh signature from our server
+    const signRes = await fetch("/api/admin/cloudinary-sign", {
+      credentials: "same-origin",
+      headers: authHeaders(),
+    });
+    if (!signRes.ok) throw new Error("Could not get upload signature");
+    const { cloudName, apiKey, timestamp, signature } = (await signRes.json()) as {
+      cloudName: string; apiKey: string; timestamp: number; signature: string;
+    };
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("api_key", apiKey);
+    formData.append("timestamp", String(timestamp));
+    formData.append("signature", signature);
+
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      method: "POST",
+      body: formData,
+    });
+    if (!res.ok) throw new Error("Cloudinary upload failed");
+    const json = (await res.json()) as { secure_url?: string };
+    if (!json.secure_url) throw new Error("Cloudinary did not return a URL");
+    return json.secure_url;
+  }
+
+  const DNG_TYPES = new Set(["image/x-adobe-dng", "image/dng"]);
+
   async function uploadImage(file: File) {
     if (!editing) return;
     setUploading(true);
     try {
-      const { dataBase64, mimeType } = await compressImage(file);
+      let imageUrl: string;
 
-      const res = await fetch("/api/admin/uploads", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: { "Content-Type": "application/json", ...authHeaders() },
-        body: JSON.stringify({
-          fileName: file.name,
-          mimeType,
-          dataBase64,
-        }),
-      });
-      const data = (await res.json()) as { url?: string; error?: string };
-      if (!res.ok || !data.url) throw new Error(data.error || "upload failed");
+      if (DNG_TYPES.has(file.type) || file.name.toLowerCase().endsWith(".dng")) {
+        // DNG/RAW: can't be canvas-decoded — upload directly to Cloudinary
+        imageUrl = await uploadDngToCloudinary(file);
+      } else {
+        // Regular image: compress client-side then proxy through our API
+        const { dataBase64, mimeType } = await compressImage(file);
+        const res = await fetch("/api/admin/uploads", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json", ...authHeaders() },
+          body: JSON.stringify({ fileName: file.name, mimeType, dataBase64 }),
+        });
+        const data = (await res.json()) as { url?: string; error?: string };
+        if (!res.ok || !data.url) throw new Error(data.error || "upload failed");
+        imageUrl = data.url;
+      }
+
       setEditing((prev) =>
-        prev ? { ...prev, images: [...prev.images, data.url as string] } : prev,
+        prev ? { ...prev, images: [...prev.images, imageUrl] } : prev,
       );
     } catch (error) {
       alert(error instanceof Error ? error.message : "Upload failed.");
