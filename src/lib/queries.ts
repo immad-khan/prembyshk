@@ -2,7 +2,7 @@ import { and, asc, desc, eq, gte, ilike, inArray, lte, or, sql } from "drizzle-o
 import { db } from "@/db";
 import { categories, products, reviews } from "@/db/schema";
 import type { Category, Product, Review } from "@/db/schema";
-import { productCategories } from "@/lib/categories";
+import { CATEGORY_OPTIONS, productCategories } from "@/lib/categories";
 
 function matchesCategory(slug: string) {
   return or(
