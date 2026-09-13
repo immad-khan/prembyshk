@@ -444,9 +444,6 @@ export default function AdminPage() {
             Quick owner login
           </button>
           {notice && <p className="mt-4 text-center text-sm text-rose-deep">{notice}</p>}
-          <p className="mt-4 text-center text-xs text-muted">
-            Current password: <span className="font-mono text-ink">prembyshk</span>
-          </p>
           <Link
             href="/"
             className="mt-5 block text-center text-[0.66rem] tracking-[0.18em] uppercase text-muted transition hover:text-rose-deep"
