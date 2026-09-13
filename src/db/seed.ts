@@ -48,32 +48,39 @@ export const CATEGORY_SEED = [
     sortOrder: 1,
   },
   {
+    slug: "studs",
+    name: "Studs",
+    tagline: "Minimal & everyday studs",
+    imageUrl: S.starEarring,
+    sortOrder: 2,
+  },
+  {
     slug: "rings",
     name: "Rings",
     tagline: "Stackable & sculptural",
     imageUrl: P.rings,
-    sortOrder: 2,
+    sortOrder: 3,
   },
   {
     slug: "bracelets",
     name: "Bracelets",
     tagline: "Cuffs, bangles & wire stacks",
     imageUrl: P.bangles,
-    sortOrder: 3,
+    sortOrder: 4,
   },
   {
     slug: "necklaces",
     name: "Necklaces",
     tagline: "Pendants & layering chains",
     imageUrl: S.necklacesPink,
-    sortOrder: 4,
+    sortOrder: 5,
   },
   {
     slug: "sets",
     name: "Gift Sets",
     tagline: "Perfectly paired, beautifully boxed",
     imageUrl: P.pearlset,
-    sortOrder: 5,
+    sortOrder: 6,
   },
 ];
 
