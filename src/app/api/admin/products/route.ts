@@ -3,12 +3,6 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import {
-  addMemoryProduct,
-  getMemoryProducts,
-  updateMemoryProduct,
-  deleteMemoryProduct,
-} from "@/lib/memory-store";
 
 export const dynamic = "force-dynamic";
 
@@ -82,17 +76,14 @@ function sanitize(body: ProductPayload) {
   };
 }
 
-import { ensureSeeded } from "@/lib/queries";
-
 export async function GET(request: Request) {
   if (!(await isAdminAuthenticated(request))) return unauthorized();
-  if (!db) return NextResponse.json({ products: getMemoryProducts() });
+  if (!db) return NextResponse.json({ products: [] });
   try {
-    await ensureSeeded();
     const all = await db.select().from(products);
-    return NextResponse.json({ products: all.length > 0 ? all : getMemoryProducts() });
+    return NextResponse.json({ products: all });
   } catch {
-    return NextResponse.json({ products: getMemoryProducts() });
+    return NextResponse.json({ products: [] });
   }
 }
 
@@ -106,28 +97,19 @@ export async function POST(request: Request) {
     }
 
     if (!db) {
-      if (getMemoryProducts().find((p) => p.slug === clean.slug)) {
-        return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
-      }
-      const created = addMemoryProduct(clean);
-      return NextResponse.json({ product: created });
+      return NextResponse.json({ error: "Database not configured." }, { status: 500 });
     }
 
     try {
-      await ensureSeeded();
       const existing = await db.select().from(products).where(eq(products.slug, clean.slug));
       if (existing.length > 0) {
         return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
       }
       const result = await db.insert(products).values(clean).returning();
-      addMemoryProduct(result[0]);
       return NextResponse.json({ product: result[0] });
-    } catch {
-      if (getMemoryProducts().find((p) => p.slug === clean.slug)) {
-        return NextResponse.json({ error: "A product with this slug already exists." }, { status: 409 });
-      }
-      const created = addMemoryProduct(clean);
-      return NextResponse.json({ product: created });
+    } catch (error) {
+      console.error("admin product create error", error);
+      return NextResponse.json({ error: "Server error" }, { status: 500 });
     }
   } catch (error) {
     console.error("admin product create error", error);

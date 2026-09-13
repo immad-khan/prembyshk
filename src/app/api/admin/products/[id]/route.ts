@@ -3,8 +3,6 @@ import { eq, or } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { deleteMemoryProduct, updateMemoryProduct } from "@/lib/memory-store";
-import { ensureSeeded } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -94,33 +92,30 @@ export async function PUT(
       return NextResponse.json({ error: "Name, slug, category and price are required." }, { status: 400 });
     }
 
-    if (db) {
-      try {
-        await ensureSeeded();
-        const condition = isNumeric
-          ? or(eq(products.id, idNum), eq(products.slug, id), eq(products.slug, clean.slug))
-          : or(eq(products.slug, id), eq(products.slug, clean.slug));
-        
-        const result = await db.update(products).set(clean).where(condition).returning();
-        if (result.length > 0) {
-          updateMemoryProduct(isNumeric ? idNum : id, clean);
-          return NextResponse.json({ product: result[0] });
-        }
-
-        // If not found in DB, insert/upsert new row
-        const inserted = await db.insert(products).values(clean).returning();
-        if (inserted.length > 0) {
-          updateMemoryProduct(inserted[0].id, inserted[0]);
-          return NextResponse.json({ product: inserted[0] });
-        }
-      } catch (err) {
-        console.error("DB update error", err);
-      }
+    if (!db) {
+      return NextResponse.json({ error: "Database not configured." }, { status: 500 });
     }
 
-    const updated = updateMemoryProduct(isNumeric ? idNum : id, clean);
-    if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    return NextResponse.json({ product: updated });
+    try {
+      const condition = isNumeric
+        ? or(eq(products.id, idNum), eq(products.slug, id), eq(products.slug, clean.slug))
+        : or(eq(products.slug, id), eq(products.slug, clean.slug));
+
+      const result = await db.update(products).set(clean).where(condition).returning();
+      if (result.length > 0) {
+        return NextResponse.json({ product: result[0] });
+      }
+
+      const inserted = await db.insert(products).values(clean).returning();
+      if (inserted.length > 0) {
+        return NextResponse.json({ product: inserted[0] });
+      }
+    } catch (error) {
+      console.error("DB update error", error);
+      return NextResponse.json({ error: "Server error" }, { status: 500 });
+    }
+
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   } catch (error) {
     console.error("admin product update error", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
@@ -137,19 +132,20 @@ export async function DELETE(
     const idNum = parseInt(id, 10);
     const isNumeric = !Number.isNaN(idNum);
 
-    if (db) {
-      try {
-        await ensureSeeded();
-        const condition = isNumeric
-          ? or(eq(products.id, idNum), eq(products.slug, id))
-          : eq(products.slug, id);
-        await db.delete(products).where(condition);
-      } catch {
-        // fall through
-      }
+    if (!db) {
+      return NextResponse.json({ error: "Database not configured." }, { status: 500 });
     }
 
-    deleteMemoryProduct(isNumeric ? idNum : id);
+    try {
+      const condition = isNumeric
+        ? or(eq(products.id, idNum), eq(products.slug, id))
+        : eq(products.slug, id);
+      await db.delete(products).where(condition);
+    } catch (error) {
+      console.error("DB delete error", error);
+      return NextResponse.json({ error: "Server error" }, { status: 500 });
+    }
+
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
