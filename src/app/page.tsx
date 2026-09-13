@@ -17,54 +17,44 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* HERO — fully responsive layout with photo behind text */}
-      <section className="relative isolate overflow-hidden bg-cream-deep">
-        <div className="absolute inset-0 -z-20">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/hero.jpg"
-            alt="Model wearing Prem by SHK gold jewellery"
-            className="h-full w-full object-cover object-[78%_25%] sm:object-[70%_center] lg:object-center"
-          />
-        </div>
-
-        {/* Soft responsive scrim: keeps text perfectly readable while displaying the photo */}
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-cream/95 via-cream/80 to-transparent sm:from-cream-deep/90 sm:via-cream/60 lg:from-cream-deep/85 lg:via-cream/45" />
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-cream/90 via-cream/20 to-transparent sm:hidden" />
-
-        <div className="mx-auto flex min-h-[500px] w-full max-w-7xl items-center px-4 py-12 sm:min-h-[580px] sm:px-6 sm:py-16 md:min-h-[620px] lg:min-h-[680px] lg:px-8">
-          <div className="animate-fade-up max-w-full sm:max-w-xl">
-            <p className="eyebrow flex items-center gap-3 text-xs sm:text-sm">
+      {/* HERO — clean luxury typographic layout */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-cream-deep via-blush-soft/50 to-cream py-16 sm:py-24 lg:py-28">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <div className="animate-fade-up mx-auto max-w-3xl">
+            <p className="eyebrow inline-flex items-center gap-3 text-xs sm:text-sm">
               <span className="hairline inline-block w-8 sm:w-10" />
               The Art of Adornment
+              <span className="hairline inline-block w-8 sm:w-10" />
             </p>
-            <h1 className="mt-3 font-serif text-4xl leading-[1.04] font-light text-ink sm:text-5xl md:text-6xl lg:text-[5.2rem]">
+            <h1 className="mt-4 font-serif text-4xl leading-[1.04] font-light text-ink sm:text-6xl md:text-7xl lg:text-[5.6rem]">
               Timeless
-              <span className="mt-1 block font-script text-5xl leading-none rose-gradient-text sm:text-6xl md:text-7xl lg:text-[5.8rem]">
+              <span className="mt-2 block font-script text-5xl leading-none rose-gradient-text sm:text-7xl md:text-8xl lg:text-[6.2rem]">
                 Brilliance
               </span>
             </h1>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-soft sm:mt-6 sm:text-[0.95rem]">
+            <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-ink-soft sm:text-[1rem]">
               Exquisite designs, thoughtfully crafted to make life&rsquo;s most meaningful moments even more memorable.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-4 sm:mt-8">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
               <Link
                 href="/shop"
-                className="group flex items-center gap-3 rounded-sm bg-gradient-to-r from-rose-deep to-rose px-6 py-3.5 text-[0.64rem] tracking-[0.2em] uppercase text-cream shadow-sm transition hover:from-rose hover:to-rose-deep sm:px-7 sm:py-4 sm:text-[0.68rem] sm:tracking-[0.24em]"
+                className="group flex items-center gap-3 rounded-sm bg-gradient-to-r from-rose-deep to-rose px-7 py-4 text-[0.68rem] tracking-[0.22em] uppercase text-cream shadow-md transition hover:from-rose hover:to-rose-deep hover:shadow-lg"
               >
                 Discover Signature Pieces
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/shop?category=sets"
-                className="border-b border-rose pb-1 text-[0.64rem] tracking-[0.2em] uppercase text-rose-deep transition hover:border-ink hover:text-ink sm:text-[0.68rem]"
+                className="border-b border-rose pb-1 text-[0.68rem] tracking-[0.2em] uppercase text-rose-deep transition hover:border-ink hover:text-ink"
               >
                 Shop Gift Sets
               </Link>
             </div>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[0.62rem] tracking-[0.16em] uppercase text-muted sm:mt-10 sm:gap-x-8 sm:text-[0.68rem] sm:tracking-[0.18em]">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[0.64rem] tracking-[0.18em] uppercase text-muted sm:text-[0.68rem]">
               <span>Hypoallergenic</span>
+              <span>•</span>
               <span>Tarnish Resistant</span>
+              <span>•</span>
               <span>Gift Boxed</span>
             </div>
           </div>
