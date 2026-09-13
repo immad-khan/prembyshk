@@ -77,19 +77,9 @@ export const PROMISES = [
     icon: "gem",
   },
   {
-    title: "Signature Packaging",
-    body: "Blush keepsake boxes for every order.",
-    icon: "gift",
-  },
-  {
     title: "Nationwide Delivery",
     body: "Insured shipping to your door.",
     icon: "globe",
-  },
-  {
-    title: "Hassle-Free Returns",
-    body: "Easy 30-day returns on all eligible orders.",
-    icon: "return",
   },
 ] as const;
 

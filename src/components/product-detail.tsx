@@ -150,14 +150,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </button>
         </div>
 
-        <div className="mt-6 grid gap-3 border-y border-line py-5 text-xs text-ink-soft sm:grid-cols-2">
-          <p className="flex items-center gap-2">
-            <GiftIcon className="h-4 w-4 text-rose" /> Signature gift packaging
-          </p>
-          <p className="flex items-center gap-2">
-            <ReturnIcon className="h-4 w-4 text-rose" /> 30-day easy returns
-          </p>
-        </div>
+
 
         <div className="mt-6">
           <p className="eyebrow">The Details</p>
