@@ -8,26 +8,24 @@ export function BrandLogo({
   className?: string;
 }) {
   const scale = {
-    sm: { script: "text-3xl sm:text-4xl", sub: "text-[0.58rem] sm:text-[0.64rem]", pad: "px-4 py-1.5" },
-    md: { script: "text-4xl sm:text-5xl", sub: "text-[0.66rem] sm:text-[0.72rem]", pad: "px-5 py-2" },
-    lg: { script: "text-6xl sm:text-7xl", sub: "text-[0.78rem] sm:text-[0.85rem]", pad: "px-7 py-2.5" },
+    sm: { script: "text-2xl sm:text-3xl", sub: "text-[0.52rem] sm:text-[0.58rem]", tracking: "tracking-[0.38em]" },
+    md: { script: "text-3xl sm:text-4xl lg:text-[2.75rem]", sub: "text-[0.6rem] sm:text-[0.66rem]", tracking: "tracking-[0.42em]" },
+    lg: { script: "text-5xl sm:text-6xl", sub: "text-[0.72rem] sm:text-[0.78rem]", tracking: "tracking-[0.45em]" },
   }[size];
 
   return (
-    <Link href="/" className={`group inline-flex flex-col items-center ${className}`}>
-      <span className={`relative inline-flex flex-col items-center ${scale.pad}`}>
-        <span className="pointer-events-none absolute inset-0 -z-10 gold-frame rounded-[2px]" />
+    <Link
+      href="/"
+      className={`group inline-flex flex-col items-center select-none ${className}`}
+    >
+      <span className="flex flex-col items-center transition-transform duration-300 group-hover:scale-[1.02]">
         <span
-          aria-hidden
-          className="pointer-events-none absolute inset-x-1 inset-y-0 -z-20 rounded-full bg-blush/70 blur-[6px] transition-all duration-500 group-hover:bg-blush"
-        />
-        <span
-          className={`font-script leading-[0.95] rose-gradient-text ${scale.script}`}
+          className={`font-script leading-none rose-gradient-text drop-shadow-sm ${scale.script}`}
         >
           Prem
         </span>
         <span
-          className={`font-sans font-light tracking-[0.42em] text-rose-deep ${scale.sub}`}
+          className={`mt-0.5 font-sans font-light uppercase text-rose-deep/90 ${scale.tracking} ${scale.sub}`}
         >
           BY SHK
         </span>
