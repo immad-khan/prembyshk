@@ -185,13 +185,6 @@ export function SiteHeader() {
               ))}
             </nav>
             <Link
-              href="/admin"
-              onClick={() => setMenuOpen(false)}
-              className="mt-6 block py-2 text-[0.68rem] tracking-[0.22em] uppercase text-muted transition hover:text-rose-deep"
-            >
-              Studio
-            </Link>
-            <Link
               href="/appointment"
               onClick={() => setMenuOpen(false)}
               className="mt-8 block rounded-sm bg-rose-deep px-5 py-3 text-center text-[0.68rem] tracking-[0.22em] uppercase text-cream"
