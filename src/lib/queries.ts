@@ -36,11 +36,18 @@ export async function getCategories(): Promise<Category[]> {
 export async function getBestSellers(limit = 6): Promise<Product[]> {
   if (!db) return [];
   try {
-    return await db
+    const flagged = await db
       .select()
       .from(products)
       .where(eq(products.isBestSeller, true))
       .orderBy(desc(products.reviewCount))
+      .limit(limit);
+    if (flagged.length > 0) return flagged;
+    // Fallback: return highest-rated products when no isBestSeller flag is set
+    return await db
+      .select()
+      .from(products)
+      .orderBy(desc(products.reviewCount), desc(products.rating))
       .limit(limit);
   } catch {
     return [];
@@ -50,10 +57,17 @@ export async function getBestSellers(limit = 6): Promise<Product[]> {
 export async function getNewArrivals(limit = 4): Promise<Product[]> {
   if (!db) return [];
   try {
-    return await db
+    const flagged = await db
       .select()
       .from(products)
       .where(eq(products.isNew, true))
+      .orderBy(desc(products.id))
+      .limit(limit);
+    if (flagged.length > 0) return flagged;
+    // Fallback: return most recently added products when no isNew flag is set
+    return await db
+      .select()
+      .from(products)
       .orderBy(desc(products.id))
       .limit(limit);
   } catch {
