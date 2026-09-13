@@ -101,6 +101,15 @@ export function ProductDetail({ product }: { product: Product }) {
           )}
         </div>
 
+        {product.colors && product.colors.length > 0 && (
+          <div className="mt-3 flex items-center gap-2">
+            <span className="text-[0.64rem] tracking-[0.18em] uppercase text-muted">Available Colors:</span>
+            <span className="text-xs font-medium text-ink">
+              {product.colors.join(" · ")}
+            </span>
+          </div>
+        )}
+
         <p className="mt-5 text-sm leading-relaxed text-ink-soft">
           {product.description}
         </p>

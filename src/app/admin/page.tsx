@@ -557,6 +557,11 @@ export default function AdminPage() {
                       {categoryLabel(slug)}
                     </span>
                   ))}
+                  {product.colors && product.colors.map((c) => (
+                    <span key={c} className="rounded-full border border-line bg-cream px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-ink-soft">
+                      🎨 {c}
+                    </span>
+                  ))}
                   {product.isNew && <span className="rounded-full bg-cream-deep px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-rose-deep">New</span>}
                   {product.isBestSeller && <span className="rounded-full bg-cream-deep px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-rose-deep">Bestseller</span>}
                 </div>

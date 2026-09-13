@@ -118,6 +118,12 @@ export function ProductCard({
             </span>
           )}
         </div>
+        {product.colors && product.colors.length > 0 && (
+          <p className="text-[0.66rem] text-muted">
+            <span className="font-medium text-ink-soft">Color:</span>{" "}
+            {product.colors.join(", ")}
+          </p>
+        )}
         <div className="flex items-center gap-2">
           <Stars rating={product.rating} className="text-gold" />
           <span className="text-[0.68rem] text-muted">
