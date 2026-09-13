@@ -48,9 +48,9 @@ export const CATEGORY_SEED = [
     sortOrder: 1,
   },
   {
-    slug: "studs",
-    name: "Studs",
-    tagline: "Minimal & everyday studs",
+    slug: "cuffs",
+    name: "Cuffs",
+    tagline: "Ear cuffs, wrist cuffs & sculptural bands",
     imageUrl: S.starEarring,
     sortOrder: 2,
   },

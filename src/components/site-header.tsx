@@ -18,7 +18,7 @@ import {
 const NAV = [
   { label: "New In", href: "/shop?sort=newest" },
   { label: "Earrings", href: "/shop?category=earrings" },
-  { label: "Studs", href: "/shop?category=studs" },
+  { label: "Cuffs", href: "/shop?category=cuffs" },
   { label: "Rings", href: "/shop?category=rings" },
   { label: "Bracelets", href: "/shop?category=bracelets" },
   { label: "Necklaces", href: "/shop?category=necklaces" },
