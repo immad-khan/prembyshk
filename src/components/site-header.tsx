@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AdminLink } from "@/components/admin-link";
 import { BrandLogo } from "@/components/brand-logo";
 import { CartDrawer } from "@/components/cart-drawer";
 import { useCart } from "@/components/cart-provider";
@@ -89,7 +88,6 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-3 text-ink sm:gap-4">
-            <AdminLink />
             <button
               aria-label="Search"
               onClick={() => setSearchOpen((v) => !v)}
