@@ -4,7 +4,7 @@ import { ProductCard } from "@/components/product-card";
 import { ShopFilters } from "@/components/shop-filters";
 import { getCategories, getProducts } from "@/lib/queries";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 type SearchParams = Promise<{
   category?: string;

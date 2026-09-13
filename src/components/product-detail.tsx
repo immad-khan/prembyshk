@@ -7,7 +7,7 @@ import { useCart } from "@/components/cart-provider";
 import { HeartIcon, GiftIcon, ReturnIcon } from "@/components/icons";
 import { Stars } from "@/components/stars";
 import { WhatsAppMark } from "@/components/whatsapp-mark";
-import { formatPrice, formatRating } from "@/lib/format";
+import { formatPrice, formatRating, optimizeImageUrl } from "@/lib/format";
 import { defaultProductMessage, whatsappLink } from "@/lib/whatsapp";
 import { categoryLabel, productCategories } from "@/lib/categories";
 
@@ -35,7 +35,7 @@ export function ProductDetail({ product }: { product: Product }) {
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={image} alt="" className="h-full w-full object-cover" />
+              <img src={optimizeImageUrl(image, 200)} alt="" className="h-full w-full object-cover" />
             </button>
           ))}
         </div>
@@ -43,7 +43,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="aspect-[4/5] w-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={activeImage}
+              src={optimizeImageUrl(activeImage, 800)}
               alt={product.name}
               className="h-full w-full object-cover"
             />

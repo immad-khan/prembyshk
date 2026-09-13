@@ -4,8 +4,9 @@ import { Testimonials } from "@/components/testimonials";
 import { ArrowRight, BadgeCheckIcon, GemIcon, PROMISE_ICONS, SparklesIcon } from "@/components/icons";
 import { COLLECTION_BANNERS, JOURNAL, PROMISES } from "@/lib/content";
 import { getBestSellers, getCategories, getNewArrivals } from "@/lib/queries";
+import { optimizeImageUrl } from "@/lib/format";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function HomePage() {
   const [categories, bestSellers, newArrivals] = await Promise.all([
@@ -82,7 +83,7 @@ export default async function HomePage() {
               <div className="h-32 w-full overflow-hidden rounded-md bg-blush-soft">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={category.imageUrl}
+                  src={optimizeImageUrl(category.imageUrl, 400)}
                   alt={category.name}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -109,7 +110,7 @@ export default async function HomePage() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={banner.image}
+                src={optimizeImageUrl(banner.image, 500)}
                 alt={banner.title}
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
               />

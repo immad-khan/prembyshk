@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import type { Product } from "@/db/schema";
 import { useCart } from "@/components/cart-provider";
 import { BagIcon, HeartIcon } from "@/components/icons";
 import { Stars } from "@/components/stars";
 import { WhatsAppMark } from "@/components/whatsapp-mark";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, optimizeImageUrl } from "@/lib/format";
 import { defaultProductMessage, whatsappLink } from "@/lib/whatsapp";
 
 export function ProductCard({
@@ -17,14 +18,21 @@ export function ProductCard({
   priority?: boolean;
 }) {
   const { toggleWishlist, isWishlisted, addItem } = useCart();
-  const image = product.images[0] ?? "https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900";
-  const hover = product.images[1] ?? image;
-  const wished = isWishlisted(product.slug);
+  const [isHovered, setIsHovered] = useState(false);
 
+  const rawImage = product.images[0] ?? "https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900";
+  const rawHover = product.images[1] ?? rawImage;
+  const image = optimizeImageUrl(rawImage, 500);
+  const hover = optimizeImageUrl(rawHover, 500);
+
+  const wished = isWishlisted(product.slug);
   const message = defaultProductMessage(product.name, product.slug);
 
   return (
-    <article className="group relative flex flex-col">
+    <article
+      className="group relative flex flex-col"
+      onMouseEnter={() => setIsHovered(true)}
+    >
       <div className="relative overflow-hidden rounded-sm bg-blush-soft">
         <Link href={`/product/${product.slug}`} className="block">
           <div className="relative aspect-[4/5] w-full overflow-hidden">
@@ -35,14 +43,15 @@ export function ProductCard({
               loading={priority ? "eager" : "lazy"}
               className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
             />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={hover}
-              alt=""
-              aria-hidden
-              loading="lazy"
-              className="absolute inset-0 h-full w-full scale-105 object-cover opacity-0 transition-all duration-700 group-hover:scale-100 group-hover:opacity-100"
-            />
+            {rawHover !== rawImage && isHovered && (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={hover}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full scale-105 object-cover opacity-0 transition-all duration-700 group-hover:scale-100 group-hover:opacity-100"
+              />
+            )}
           </div>
         </Link>
 

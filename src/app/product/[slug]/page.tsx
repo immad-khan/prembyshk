@@ -4,12 +4,18 @@ import { ProductCard } from "@/components/product-card";
 import { ProductDetail } from "@/components/product-detail";
 import { Stars } from "@/components/stars";
 import {
+  getAllProductSlugs,
   getProductBySlug,
   getRelatedProducts,
   getReviews,
 } from "@/lib/queries";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const slugs = await getAllProductSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
 type Params = Promise<{ slug: string }>;
 
