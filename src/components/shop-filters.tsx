@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Category } from "@/db/schema";
+import { CATEGORY_OPTIONS } from "@/lib/categories";
 
 const SORTS = [
   { value: "featured", label: "Featured" },
@@ -46,11 +47,27 @@ export function ShopFilters({
     PRICE_BANDS.find((band) => band.min === min && band.max === max)?.label ??
     "All prices";
 
+  const filterOptions = (() => {
+    const list: { slug: string; name: string }[] = [{ slug: "all", name: "All Jewellery" }];
+    const seen = new Set<string>();
+    categories.forEach((c) => {
+      list.push({ slug: c.slug, name: c.name });
+      seen.add(c.slug);
+    });
+    CATEGORY_OPTIONS.forEach((c) => {
+      if (!seen.has(c.slug)) {
+        list.push({ slug: c.slug, name: c.name });
+        seen.add(c.slug);
+      }
+    });
+    return list;
+  })();
+
   return (
     <div className="border-y border-line bg-blush-soft/40">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 lg:px-8">
         <div className="no-scrollbar flex max-w-full items-center gap-2 overflow-x-auto">
-          {[{ slug: "all", name: "All Jewellery" }, ...categories].map((cat) => {
+          {filterOptions.map((cat) => {
             const isActive = active === cat.slug;
             const search = new URLSearchParams(params.toString());
             if (cat.slug === "all") search.delete("category");

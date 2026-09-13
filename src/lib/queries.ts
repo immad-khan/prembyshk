@@ -12,11 +12,24 @@ function matchesCategory(slug: string) {
 }
 
 export async function getCategories(): Promise<Category[]> {
-  if (!db) return [];
+  const defaultList: Category[] = CATEGORY_OPTIONS.map((c, i) => ({
+    id: i + 1,
+    slug: c.slug,
+    name: c.name,
+    tagline: null,
+    imageUrl: null,
+    sortOrder: i + 1,
+  }));
+
+  if (!db) return defaultList;
   try {
-    return await db.select().from(categories).orderBy(asc(categories.sortOrder));
+    const rows = await db.select().from(categories).orderBy(asc(categories.sortOrder));
+    if (!rows.length) return defaultList;
+    const existingSlugs = new Set(rows.map((r) => r.slug));
+    const missing = defaultList.filter((d) => !existingSlugs.has(d.slug));
+    return [...rows, ...missing];
   } catch {
-    return [];
+    return defaultList;
   }
 }
 
