@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { getProducts } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -78,9 +79,8 @@ function sanitize(body: ProductPayload) {
 
 export async function GET(request: Request) {
   if (!(await isAdminAuthenticated(request))) return unauthorized();
-  if (!db) return NextResponse.json({ products: [] });
   try {
-    const all = await db.select().from(products);
+    const all = await getProducts();
     return NextResponse.json({ products: all });
   } catch {
     return NextResponse.json({ products: [] });
