@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getProducts, getProductsBySlugs } from "@/lib/queries";
 
-export const dynamic = "force-dynamic";
+const CACHE_HEADERS = {
+  "Cache-Control": "public, max-age=60, s-maxage=60, stale-while-revalidate=86400",
+};
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,7 +12,7 @@ export async function GET(request: Request) {
   if (slugs !== null) {
     const list = slugs.split(",").map((s) => s.trim()).filter(Boolean);
     const products = await getProductsBySlugs(list);
-    return NextResponse.json({ products });
+    return NextResponse.json({ products }, { headers: CACHE_HEADERS });
   }
 
   const products = await getProducts({
@@ -18,5 +20,5 @@ export async function GET(request: Request) {
     sort: searchParams.get("sort") ?? undefined,
     q: searchParams.get("q") ?? undefined,
   });
-  return NextResponse.json({ products });
+  return NextResponse.json({ products }, { headers: CACHE_HEADERS });
 }
