@@ -16,8 +16,8 @@ export async function getCategories(): Promise<Category[]> {
     id: i + 1,
     slug: c.slug,
     name: c.name,
-    tagline: null,
-    imageUrl: null,
+    tagline: "",
+    imageUrl: "",
     sortOrder: i + 1,
   }));
 
