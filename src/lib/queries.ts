@@ -69,6 +69,15 @@ export type ShopFilters = {
   min?: number;
 };
 
+const CATEGORY_ORDER: Record<string, number> = {
+  earrings: 1,
+  cuffs: 2,
+  rings: 3,
+  bracelets: 4,
+  necklaces: 5,
+  sets: 6,
+};
+
 export async function getProducts(filters: ShopFilters = {}): Promise<Product[]> {
   if (!db) return [];
 
@@ -101,9 +110,32 @@ export async function getProducts(filters: ShopFilters = {}): Promise<Product[]>
 
   try {
     const query = db.select().from(products);
-    return conditions.length > 0
-      ? await query.where(and(...conditions)).orderBy(orderBy)
-      : await query.orderBy(orderBy);
+    let rows =
+      conditions.length > 0
+        ? await query.where(and(...conditions)).orderBy(orderBy)
+        : await query.orderBy(orderBy);
+
+    if (
+      (!filters.category || filters.category === "all") &&
+      (!filters.sort || filters.sort === "featured")
+    ) {
+      const getCategoryWeight = (p: Product) => {
+        const primary = p.categorySlug;
+        if (primary && CATEGORY_ORDER[primary]) return CATEGORY_ORDER[primary];
+        const extra = p.categorySlugs?.[0];
+        if (extra && CATEGORY_ORDER[extra]) return CATEGORY_ORDER[extra];
+        return 99;
+      };
+
+      rows = [...rows].sort((a, b) => {
+        const weightA = getCategoryWeight(a);
+        const weightB = getCategoryWeight(b);
+        if (weightA !== weightB) return weightA - weightB;
+        return b.reviewCount - a.reviewCount;
+      });
+    }
+
+    return rows;
   } catch {
     return [];
   }
