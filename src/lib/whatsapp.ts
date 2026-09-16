@@ -1,5 +1,5 @@
-export const WHATSAPP_NUMBER = "923038064241";
-export const WHATSAPP_DISPLAY = "+92 303 806 4241";
+export const WHATSAPP_NUMBER = "923246114868";
+export const WHATSAPP_DISPLAY = "+92 324 611 4868";
 
 export function whatsappLink(message: string, phone = WHATSAPP_NUMBER): string {
   const encoded = encodeURIComponent(message.trim());
