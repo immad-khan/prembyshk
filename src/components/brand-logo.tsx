@@ -8,24 +8,24 @@ export function BrandLogo({
   className?: string;
 }) {
   const scale = {
-    sm: { script: "text-2xl sm:text-3xl", sub: "text-[0.52rem] sm:text-[0.58rem]", tracking: "tracking-[0.38em]" },
-    md: { script: "text-3xl sm:text-4xl lg:text-[2.75rem]", sub: "text-[0.6rem] sm:text-[0.66rem]", tracking: "tracking-[0.42em]" },
-    lg: { script: "text-5xl sm:text-6xl", sub: "text-[0.72rem] sm:text-[0.78rem]", tracking: "tracking-[0.45em]" },
+    sm: { text: "text-[0.52rem] sm:text-[0.58rem]", tracking: "tracking-[0.38em]" },
+    md: { text: "text-[0.6rem] sm:text-[0.66rem]", tracking: "tracking-[0.42em]" },
+    lg: { text: "text-[0.72rem] sm:text-[0.78rem]", tracking: "tracking-[0.45em]" },
   }[size];
 
   return (
     <Link
       href="/"
-      className={`group inline-flex flex-col items-center select-none ${className}`}
+      className={`group inline-flex items-center select-none ${className}`}
     >
-      <span className="flex flex-col items-center transition-transform duration-300 group-hover:scale-[1.02]">
+      <span className="flex items-center gap-1 transition-transform duration-300 group-hover:scale-[1.02]">
         <span
-          className={`font-script leading-none rose-gradient-text drop-shadow-sm ${scale.script}`}
+          className={`font-sans font-light uppercase text-rose-deep/90 ${scale.tracking} ${scale.text}`}
         >
           Prem
         </span>
         <span
-          className={`mt-0.5 font-sans font-light uppercase text-rose-deep/90 ${scale.tracking} ${scale.sub}`}
+          className={`font-sans font-light uppercase text-rose-deep/90 ${scale.tracking} ${scale.text}`}
         >
           BY SHK
         </span>
