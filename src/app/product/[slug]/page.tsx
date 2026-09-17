@@ -10,7 +10,8 @@ import {
   getReviews,
 } from "@/lib/queries";
 
-export const revalidate = 60;
+export const revalidate = 0;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const slugs = await getAllProductSlugs();
