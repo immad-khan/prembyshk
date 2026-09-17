@@ -2,7 +2,7 @@ export const BRAND = {
   name: "Prem",
   suffix: "by SHK",
   tagline: "Premium Quality • Exclusively For You",
-  phone: "+92 318 506115",
+  phone: "03246114868",
   email: "prembyshk@gmail.com",
   
   instagram: "https://instagram.com",

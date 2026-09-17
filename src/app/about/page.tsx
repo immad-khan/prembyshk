@@ -17,8 +17,8 @@ const SECTIONS = [
   },
   {
     id: "returns",
-    title: "Returns & Exchanges",
-    body: "Returns and exchanges are accepted within 3 days of delivery.",
+    title: "Returns",
+    body: "A piece can be returned if it is received defective and an image of the defective piece is shared as soon as possible on WhatsApp.",
   },
   {
     id: "care",
