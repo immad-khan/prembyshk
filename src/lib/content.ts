@@ -85,27 +85,33 @@ export const PROMISES = [
 
 export const COLLECTION_BANNERS = [
   {
-    title: "Modern Heirlooms",
+    title: "Gift Sets",
+    body: "Beautifully presented pieces for your forever story.",
+    href: "/shop?category=sets",
+    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789211119/homfy9htiqvvt5opakc0.jpg",
+  },
+  {
+    title: "Cuffs",
+    body: "Sculpted statements that frame your wrist.",
+    href: "/shop?category=cuffs",
+    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310611/dyzrmzcp6np57hkibgxz.jpg",
+  },
+  {
+    title: "Rings",
     body: "Timeless pieces for every generation.",
     href: "/shop?category=rings",
-    image: "https://images.pexels.com/photos/18092913/pexels-photo-18092913.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310689/zo9l3ybtmstzdjfufkoi.jpg",
   },
   {
-    title: "Colour of Elegance",
-    body: "Enamel treasures that speak in colour.",
-    href: "/shop?category=earrings",
-    image: "https://images.pexels.com/photos/19869443/pexels-photo-19869443.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+    title: "Necklaces",
+    body: "Delicate lines that complete every look.",
+    href: "/shop?category=necklaces",
+    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789224566/dboummylap7pi7vezczm.jpg",
   },
   {
-    title: "Everyday Essentials",
+    title: "Bracelets",
     body: "Refined designs for your everyday glow.",
     href: "/shop?category=bracelets",
-    image: "https://images.pexels.com/photos/10828766/pexels-photo-10828766.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
-  },
-  {
-    title: "Forever Begins Here",
-    body: "Gift sets for your forever story.",
-    href: "/shop?category=sets",
-    image: "https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310896/n4ebiv3q9aymaeufxaqx.jpg",
   },
 ];

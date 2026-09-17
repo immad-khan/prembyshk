@@ -82,7 +82,7 @@ export default async function HomePage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={optimizeImageUrl(
-                    category.imageUrl || CATEGORY_IMAGES[category.slug],
+                    CATEGORY_IMAGES[category.slug] || category.imageUrl,
                     400,
                   )}
                   alt={category.name}
@@ -102,7 +102,7 @@ export default async function HomePage() {
 
       {/* COLLECTION BANNERS */}
       <section className="mx-auto max-w-7xl px-4 pb-14 lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {COLLECTION_BANNERS.map((banner) => (
             <Link
               key={banner.title}
