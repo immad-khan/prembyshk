@@ -55,7 +55,7 @@ export default function AppointmentPage() {
           </li>
           <li className="flex items-start gap-3">
             <CalendarIcon className="mt-0.5 h-5 w-5 shrink-0 text-rose" />
-            Tuesday to Saturday, 11am – 7pm PKT.
+            Monday to Sunday, 10am – 8pm PKT.
           </li>
           <li className="flex items-start gap-3">
             <WhatsappIcon className="mt-0.5 h-5 w-5 shrink-0 text-rose" />

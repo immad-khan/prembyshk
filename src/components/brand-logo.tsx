@@ -20,12 +20,12 @@ export function BrandLogo({
     >
       <span className="flex items-center gap-1 transition-transform duration-300 group-hover:scale-[1.02]">
         <span
-          className={`font-sans font-light uppercase text-rose-deep/90 ${scale.tracking} ${scale.text}`}
+          className={`font-sans font-bold uppercase text-rose-deep/90 ${scale.tracking} ${scale.text}`}
         >
           Prem
         </span>
         <span
-          className={`font-sans font-light uppercase text-rose-deep/90 ${scale.tracking} ${scale.text}`}
+          className={`font-sans font-bold uppercase text-rose-deep/90 ${scale.tracking} ${scale.text}`}
         >
           BY SHK
         </span>
