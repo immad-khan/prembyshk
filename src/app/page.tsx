@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { Testimonials } from "@/components/testimonials";
-import { ArrowRight, BadgeCheckIcon, GemIcon, PROMISE_ICONS, SparklesIcon } from "@/components/icons";
+import { ArrowRight, PROMISE_ICONS } from "@/components/icons";
 import { COLLECTION_BANNERS, JOURNAL, PROMISES } from "@/lib/content";
 import { getBestSellers, getCategories, getNewArrivals } from "@/lib/queries";
 import { optimizeImageUrl } from "@/lib/format";
@@ -172,32 +172,7 @@ export default async function HomePage() {
               At Prem by SHK, every piece tells a story of artistry, heritage, and intention. Thoughtfully crafted with an eye for detail, our designs are made to complement your most cherished moments and become part of your story.
             </p>
 
-            <div className="mt-6 grid grid-cols-3 gap-3 text-center max-w-sm sm:max-w-md">
-              <div className="flex flex-col items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
-                  <GemIcon className="h-4.5 w-4.5" />
-                </div>
-                <p className="mt-2.5 text-[0.68rem] font-medium tracking-wide uppercase text-ink">Ethically Sourced</p>
-                <p className="text-[0.6rem] text-muted">Materials</p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
-                  <SparklesIcon className="h-4.5 w-4.5" />
-                </div>
-                <p className="mt-2.5 text-[0.68rem] font-medium tracking-wide uppercase text-ink">Handcrafted by</p>
-                <p className="text-[0.6rem] text-muted">Master Artisans</p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-cream/90 text-rose-deep shadow-xs">
-                  <BadgeCheckIcon className="h-4.5 w-4.5" />
-                </div>
-                <p className="mt-2.5 text-[0.68rem] font-medium tracking-wide uppercase text-ink">Heirloom Quality</p>
-                <p className="text-[0.6rem] text-muted">Guaranteed</p>
-              </div>
             </div>
-          </div>
         </div>
       </section>
 
