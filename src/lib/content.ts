@@ -4,7 +4,7 @@ export const BRAND = {
   tagline: "Premium Quality • Exclusively For You",
   phone: "+92 300 1234567",
   email: "care@prembyshk.com",
-  address: "Studio 04, Gulberg III, Lahore, Pakistan",
+  
   instagram: "https://instagram.com",
 };
 

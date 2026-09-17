@@ -13,22 +13,22 @@ const SECTIONS = [
   {
     id: "shipping",
     title: "Shipping & Delivery",
-    body: "Orders are hand-packed within 24 hours. Nationwide delivery takes 2–4 working days. International shipping is available on request.",
+    body: "Orders are hand-packed within 24 hours. Nationwide delivery takes 2–4 working days.",
   },
   {
     id: "returns",
     title: "Returns & Exchanges",
-    body: "If a piece is not quite right, return it within 30 days in its original packaging for a full refund or exchange. Earrings must be unworn for hygiene reasons.",
+    body: "Returns and exchanges are accepted within 3 days of delivery.",
   },
   {
     id: "care",
     title: "Jewellery Care",
-    body: "Keep your pieces away from perfume and lotions, wipe gently with the polishing cloth provided and store them in the blush pouch that came with your order. Treated well, our plating stays luminous for years.",
+    body: "Keep your pieces away from perfume and lotions. Treated well, our plating stays luminous for years.",
   },
   {
     id: "contact",
     title: "Contact Us",
-    body: `Our client care team replies within one working day. Write to ${BRAND.email}, call ${BRAND.phone}, or visit us at ${BRAND.address}.`,
+    body: `Our client care team replies within one working day. Write to ${BRAND.email} or call ${BRAND.phone}.`,
   },
 ];
 

@@ -21,7 +21,6 @@ const SHOP_LINKS = [
 const CARE_LINKS = [
   { label: "Contact Us", href: "/appointment" },
   { label: "Shipping & Delivery", href: "/about#shipping" },
-  { label: "Returns & Exchanges", href: "/about#returns" },
   { label: "Jewellery Care", href: "/about#care" },
   { label: "Contact Us", href: "/about#contact" },
 ];
@@ -84,7 +83,6 @@ export function SiteFooter() {
           </p>
           <NewsletterForm />
           <div className="mt-6 space-y-1 text-sm text-ink-soft">
-            <p>{BRAND.address}</p>
             <p>{BRAND.phone}</p>
             <p>{BRAND.email}</p>
           </div>
