@@ -9,6 +9,7 @@ import { optimizeImageUrl } from "@/lib/format";
 export const revalidate = 60;
 
 const CATEGORY_IMAGES: Record<string, string> = {
+  earrings: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789222584/dbae1tihde4i9v5j61we.jpg",
   cuffs: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310611/dyzrmzcp6np57hkibgxz.jpg",
   rings: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310689/zo9l3ybtmstzdjfufkoi.jpg",
   bracelets: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310896/n4ebiv3q9aymaeufxaqx.jpg",
