@@ -8,6 +8,14 @@ import { optimizeImageUrl } from "@/lib/format";
 
 export const revalidate = 60;
 
+const CATEGORY_IMAGES: Record<string, string> = {
+  cuffs: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310611/dyzrmzcp6np57hkibgxz.jpg",
+  rings: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310689/zo9l3ybtmstzdjfufkoi.jpg",
+  bracelets: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310896/n4ebiv3q9aymaeufxaqx.jpg",
+  necklaces: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789224566/dboummylap7pi7vezczm.jpg",
+  sets: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789211119/homfy9htiqvvt5opakc0.jpg",
+};
+
 export default async function HomePage() {
   const [categories, bestSellers, newArrivals] = await Promise.all([
     getCategories(),
@@ -73,7 +81,10 @@ export default async function HomePage() {
               <div className="h-32 w-full overflow-hidden rounded-md bg-blush-soft">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={optimizeImageUrl(category.imageUrl, 400)}
+                  src={optimizeImageUrl(
+                    category.imageUrl || CATEGORY_IMAGES[category.slug],
+                    400,
+                  )}
                   alt={category.name}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
