@@ -13,7 +13,11 @@ function createDb() {
   try {
     const pool =
       globalForDb.__arenaNextJsPostgresqlPool ??
-      new Pool({ connectionString: databaseUrl, connectionTimeoutMillis: 3000 });
+      new Pool({
+        connectionString: databaseUrl,
+        connectionTimeoutMillis: 10000,
+        idleTimeoutMillis: 30000,
+      });
     if (process.env.NODE_ENV !== "production") {
       globalForDb.__arenaNextJsPostgresqlPool = pool;
     }
