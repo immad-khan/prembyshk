@@ -84,7 +84,7 @@ export default async function HomePage() {
 
       {/* CATEGORY STRIP */}
       <section className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {categories.map((category) => (
             <Link
               key={category.slug}
@@ -177,7 +177,7 @@ export default async function HomePage() {
         <div className="absolute inset-y-0 right-0 z-0 w-full md:w-[65%] lg:w-[60%] overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/story.jpg"
+            src="/images/story.png"
             alt="Prem by SHK Story"
             className="h-full w-full object-cover object-center"
           />
@@ -202,13 +202,13 @@ export default async function HomePage() {
 
       {/* PROMISES */}
       <section className="bg-cream-deep/40 py-12 border-y border-line/60">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 md:grid-cols-3 lg:grid-cols-5 lg:px-8">
+        <div className="mx-auto flex flex-wrap items-stretch justify-center gap-6 px-4 max-w-3xl lg:px-8">
           {PROMISES.map((promise) => {
             const Icon = PROMISE_ICONS[promise.icon];
             return (
               <div
                 key={promise.title}
-                className="flex flex-col items-center rounded-lg border border-line/60 bg-cream/95 p-5 text-center transition hover:border-rose-light hover:shadow-md"
+                className="flex w-full sm:w-80 flex-col items-center rounded-lg border border-line/60 bg-cream/95 p-6 text-center transition hover:border-rose-light hover:shadow-md"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blush-soft text-rose-deep">
                   <Icon className="h-6 w-6" />
