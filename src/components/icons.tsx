@@ -221,8 +221,7 @@ export function FacebookIcon(props: IconProps) {
 export function TikTokIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
-      <path d="M14.5 3v9.6a3.3 3.3 0 1 1-3.3-3.3" />
-      <path d="M14.5 3c.3 2.9 2.4 4.4 5.5 4.5" />
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
     </svg>
   );
 }

@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarIcon, GemIcon, WhatsappIcon } from "@/components/icons";
+import {
+  CalendarIcon,
+  FacebookIcon,
+  GemIcon,
+  InstagramIcon,
+  TikTokIcon,
+  WhatsappIcon,
+} from "@/components/icons";
 import { BRAND } from "@/lib/content";
 
 export default function AppointmentPage() {
@@ -63,11 +70,49 @@ export default function AppointmentPage() {
           </li>
         </ul>
 
-        <div className="mt-10 overflow-hidden rounded-sm">
+        <div className="mt-8 border-t border-line/60 pt-6">
+          <p className="text-[0.66rem] font-medium tracking-[0.2em] uppercase text-rose-deep">
+            Connect With Us
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <a
+              href={BRAND.instagram}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              className="flex items-center gap-2 rounded-full border border-line bg-cream px-4 py-2 text-xs text-ink-soft transition hover:border-rose hover:bg-rose-deep hover:text-cream group"
+            >
+              <InstagramIcon className="h-4 w-4 text-rose-deep transition group-hover:text-cream" />
+              <span>Instagram</span>
+            </a>
+            <a
+              href={BRAND.facebook}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Facebook"
+              className="flex items-center gap-2 rounded-full border border-line bg-cream px-4 py-2 text-xs text-ink-soft transition hover:border-rose hover:bg-rose-deep hover:text-cream group"
+            >
+              <FacebookIcon className="h-4 w-4 text-rose-deep transition group-hover:text-cream" />
+              <span>Facebook</span>
+            </a>
+            <a
+              href={BRAND.tiktok}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="TikTok"
+              className="flex items-center gap-2 rounded-full border border-line bg-cream px-4 py-2 text-xs text-ink-soft transition hover:border-rose hover:bg-rose-deep hover:text-cream group"
+            >
+              <TikTokIcon className="h-4 w-4 text-rose-deep transition group-hover:text-cream" />
+              <span>TikTok</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-8 overflow-hidden rounded-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900"
-            alt="Signature blush packaging"
+            src="/images/gift-giving.jpg"
+            alt="Signature Prem by SHK packaging"
             className="h-56 w-full object-cover"
           />
         </div>

@@ -5,9 +5,9 @@ export const BRAND = {
   phone: "03246114868",
   email: "prembyshk@gmail.com",
   
-  instagram: "https://www.instagram.com/prembyshk",
+  instagram: "https://www.instagram.com/prembyshk?stkn=MTc4NWw1Y2I0eDh2Mg==",
   facebook: "https://www.facebook.com/share/1GPP8E16c9/",
-  tiktok: "https://www.tiktok.com/@prem.by.shk",
+  tiktok: "https://www.tiktok.com/@prem.by.shk?_r=1&_t=ZS-99q1eP6Lzro",
 };
 
 export const TESTIMONIALS = [

@@ -1,6 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { PROMISE_ICONS } from "@/components/icons";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  PROMISE_ICONS,
+  TikTokIcon,
+} from "@/components/icons";
 import { BRAND, JOURNAL, PROMISES } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -113,6 +118,37 @@ export default function AboutPage() {
               <p className="mt-4 text-sm leading-relaxed text-ink-soft">
                 {section.body}
               </p>
+              {section.id === "contact" && (
+                <div className="mt-5 flex items-center gap-3">
+                  <a
+                    href={BRAND.instagram}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Instagram"
+                    className="rounded-full border border-line bg-cream p-2.5 text-rose-deep transition hover:bg-rose-deep hover:text-cream"
+                  >
+                    <InstagramIcon className="h-4 w-4" />
+                  </a>
+                  <a
+                    href={BRAND.facebook}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Facebook"
+                    className="rounded-full border border-line bg-cream p-2.5 text-rose-deep transition hover:bg-rose-deep hover:text-cream"
+                  >
+                    <FacebookIcon className="h-4 w-4" />
+                  </a>
+                  <a
+                    href={BRAND.tiktok}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="TikTok"
+                    className="rounded-full border border-line bg-cream p-2.5 text-rose-deep transition hover:bg-rose-deep hover:text-cream"
+                  >
+                    <TikTokIcon className="h-4 w-4" />
+                  </a>
+                </div>
+              )}
             </div>
           ))}
         </div>
