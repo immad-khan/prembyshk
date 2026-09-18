@@ -40,7 +40,7 @@ export const JOURNAL = [
     slug: "choosing-your-signature-earring",
     title: "Choosing Your Signature Earring",
     date: "May 12, 2026",
-    image: "https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+    image: "/images/signature-earring.jpg",
     excerpt:
       "From weightless hoops to sculpted blooms — how to find the pair that becomes entirely yours.",
   },
