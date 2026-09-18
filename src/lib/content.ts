@@ -5,7 +5,9 @@ export const BRAND = {
   phone: "03246114868",
   email: "prembyshk@gmail.com",
   
-  instagram: "https://instagram.com",
+  instagram: "https://www.instagram.com/prembyshk",
+  facebook: "https://www.facebook.com/share/1GPP8E16c9/",
+  tiktok: "https://www.tiktok.com/@prem.by.shk",
 };
 
 export const TESTIMONIALS = [
@@ -48,7 +50,7 @@ export const JOURNAL = [
     slug: "summer-jewellery-trends",
     title: "Summer Jewellery Trends to Love",
     date: "Apr 28, 2026",
-    image: "https://images.pexels.com/photos/10581780/pexels-photo-10581780.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+    image: "/images/summer-trends.jpg",
     excerpt:
       "Mother-of-pearl, warm gold and soft blush enamel are defining the season. Here is how to wear them.",
   },
@@ -56,7 +58,7 @@ export const JOURNAL = [
     slug: "inside-our-atelier",
     title: "Inside Our Atelier",
     date: "Apr 16, 2026",
-    image: "/images/atelier.jpg",
+    image: "/images/inside-our-atelier.jpg",
     excerpt:
       "A morning with the artisans who hand-finish every bloom, bud and bezel that leaves our studio.",
   },

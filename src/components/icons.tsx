@@ -218,6 +218,15 @@ export function FacebookIcon(props: IconProps) {
   );
 }
 
+export function TikTokIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M14.5 3v9.6a3.3 3.3 0 1 1-3.3-3.3" />
+      <path d="M14.5 3c.3 2.9 2.4 4.4 5.5 4.5" />
+    </svg>
+  );
+}
+
 export const PROMISE_ICONS = {
   gem: GemIcon,
   lock: LockIcon,

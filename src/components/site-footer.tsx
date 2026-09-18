@@ -3,10 +3,19 @@ import { BrandLogo } from "@/components/brand-logo";
 import {
   FacebookIcon,
   InstagramIcon,
+  TikTokIcon,
   WhatsappIcon,
 } from "@/components/icons";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { BRAND } from "@/lib/content";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
+
+const SOCIAL_LINKS = [
+  { Icon: InstagramIcon, href: BRAND.instagram, label: "Instagram" },
+  { Icon: FacebookIcon, href: BRAND.facebook, label: "Facebook" },
+  { Icon: TikTokIcon, href: BRAND.tiktok, label: "TikTok" },
+  { Icon: WhatsappIcon, href: `https://wa.me/${WHATSAPP_NUMBER}`, label: "WhatsApp" },
+];
 
 const SHOP_LINKS = [
   { label: "New Arrivals", href: "/shop?sort=newest" },
@@ -36,12 +45,13 @@ export function SiteFooter() {
             Made in small batches and packaged with love.
           </p>
           <div className="mt-6 flex gap-3">
-            {[InstagramIcon, FacebookIcon, WhatsappIcon].map((Icon, i) => (
+            {SOCIAL_LINKS.map(({ Icon, href, label }) => (
               <a
-                key={i}
-                href={BRAND.instagram}
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noreferrer"
+                aria-label={label}
                 className="rounded-full border border-line bg-cream p-2.5 text-rose-deep transition hover:bg-rose-deep hover:text-cream"
               >
                 <Icon className="h-4 w-4" />
