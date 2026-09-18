@@ -26,9 +26,21 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* HERO — clean luxury typographic layout */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-cream-deep via-blush-soft/50 to-cream py-16 sm:py-24 lg:py-28">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+      {/* HERO */}
+      <section className="relative overflow-hidden py-16 sm:py-24 lg:py-32">
+        {/* Hero Background Image */}
+        <div className="absolute inset-0 -z-10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/hero.png"
+            alt="Prem by SHK Fine Jewellery"
+            className="h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-cream/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-cream-deep/60 via-cream/20 to-cream" />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <div className="animate-fade-up mx-auto max-w-3xl">
             <p className="eyebrow inline-flex items-center gap-3 text-xs sm:text-sm">
               <span className="hairline inline-block w-8 sm:w-10" />
