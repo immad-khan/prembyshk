@@ -64,7 +64,7 @@ export const JOURNAL = [
     slug: "the-art-of-gift-giving",
     title: "The Art of Gift Giving",
     date: "Apr 02, 2026",
-    image: "https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900",
+    image: "/images/gift-giving.jpg",
     excerpt:
       "Blush boxes, hand-tied ribbon and a note in your own words — the details that make a gift unforgettable.",
   },
