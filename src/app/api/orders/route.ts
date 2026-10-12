@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { orderItems, orders } from "@/db/schema";
 import { getProductsBySlugs } from "@/lib/queries";
 import { shippingFor } from "@/lib/format";
+import { addMemoryOrder } from "@/lib/memory-store";
 
 export const dynamic = "force-dynamic";
 
@@ -70,27 +71,30 @@ export async function POST(request: Request) {
     const shipping = shippingFor(subtotal);
     const number = orderNumber();
 
-    if (db) {
-      await db.insert(orders).values({
-        orderNumber: number,
-        customerName: payload.customerName,
-        email: payload.email,
-        phone: payload.phone ?? "",
-        address: payload.address ?? "",
-        city: payload.city ?? "",
-        postalCode: payload.postalCode ?? "",
-        country: payload.country ?? "Pakistan",
-        note: payload.note ?? "",
-        subtotal,
-        shipping,
-        total: subtotal + shipping,
-        status: "confirmed",
-      });
+    const orderRecord = {
+      orderNumber: number,
+      customerName: payload.customerName,
+      email: payload.email,
+      phone: payload.phone ?? "",
+      address: payload.address ?? "",
+      city: payload.city ?? "",
+      postalCode: payload.postalCode ?? "",
+      country: payload.country ?? "Pakistan",
+      note: payload.note ?? "",
+      subtotal,
+      shipping,
+      total: subtotal + shipping,
+      status: "confirmed",
+    };
 
+    if (db) {
+      await db.insert(orders).values(orderRecord);
       await db
         .insert(orderItems)
         .values(priced.map((item) => ({ ...item, orderNumber: number })));
     }
+
+    addMemoryOrder(orderRecord, priced);
 
     return NextResponse.json({ orderNumber: number, total: subtotal + shipping });
   } catch (error) {
