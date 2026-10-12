@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { CloseIcon } from "@/components/icons";
 import { CATEGORY_OPTIONS, categoryLabel, productCategories } from "@/lib/categories";
+import { AdminOrders, type AdminOrder } from "@/components/admin-orders";
 
 const ADMIN_PASSWORD = "prembyshk";
 const TOKEN_KEY = "prem_admin_token";
@@ -97,6 +98,9 @@ function textToList(value: string) {
 export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
+  const [activeTab, setActiveTab] = useState<"products" | "orders">("orders");
+  const [ordersCount, setOrdersCount] = useState(0);
+  const [unfulfilledOrdersCount, setUnfulfilledOrdersCount] = useState(0);
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [editing, setEditing] = useState<AdminProduct | null>(null);
   const [originalIdentifier, setOriginalIdentifier] = useState<string | number | null>(null);
@@ -116,11 +120,35 @@ export default function AdminPage() {
     };
   };
 
+  const handleOrdersUpdated = (ordersList: AdminOrder[]) => {
+    setOrdersCount(ordersList.length);
+    setUnfulfilledOrdersCount(
+      ordersList.filter((o) => o.status === "confirmed" || o.status === "processing").length,
+    );
+  };
+
+  async function loadOrdersCount() {
+    try {
+      const res = await fetch("/api/admin/orders", {
+        cache: "no-store",
+        headers: authHeaders(),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { orders?: AdminOrder[] };
+        const list = data.orders || [];
+        handleOrdersUpdated(list);
+      }
+    } catch {
+      // ignore
+    }
+  }
+
   useEffect(() => {
     const savedPassword = window.localStorage.getItem(PASS_KEY);
     if (savedPassword) {
       setAuthenticated(true);
       void loadProducts();
+      void loadOrdersCount();
       return;
     }
 
@@ -134,6 +162,7 @@ export default function AdminPage() {
           if (data.token) window.localStorage.setItem(TOKEN_KEY, data.token);
           setAuthenticated(true);
           void loadProducts();
+          void loadOrdersCount();
         }
       })
       .catch(() => undefined);
@@ -159,7 +188,7 @@ export default function AdminPage() {
       if (data.token) window.localStorage.setItem(TOKEN_KEY, data.token);
       setAuthenticated(true);
       setPassword("");
-      await loadProducts();
+      await Promise.all([loadProducts(), loadOrdersCount()]);
     } catch {
       setNotice("Login failed. Please try again.");
     } finally {
@@ -172,6 +201,8 @@ export default function AdminPage() {
     window.localStorage.removeItem(TOKEN_KEY);
     await fetch("/api/admin/session", { method: "DELETE" }).catch(() => undefined);
     setProducts([]);
+    setOrdersCount(0);
+    setUnfulfilledOrdersCount(0);
     setAuthenticated(false);
   }
 
@@ -457,14 +488,18 @@ export default function AdminPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:py-10 lg:px-8">
+      {/* Top Header */}
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="eyebrow">Studio CRM</p>
-          <h1 className="mt-2 font-serif text-4xl text-ink">All Products</h1>
+          <p className="eyebrow">Studio Management</p>
+          <h1 className="mt-2 font-serif text-4xl text-ink">
+            {activeTab === "orders" ? "Customer Orders" : "Products Catalogue"}
+          </h1>
           <span className="hairline mt-3 block w-16" />
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink-soft">
-            Manage every listed product in this store. Edit prices, descriptions,
-            photos, categories/collections, tags, variants, stock and display flags.
+            {activeTab === "orders"
+              ? "View live client purchases placed on the website, inspect complete order details & customer info, and manage fulfillment."
+              : "Manage every listed product in this store. Edit prices, descriptions, photos, categories, stock, and tags."}
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:flex">
@@ -474,18 +509,29 @@ export default function AdminPage() {
           >
             View Store
           </Link>
-          <button
-            onClick={() => void loadProducts()}
-            className="rounded-sm border border-line px-4 py-3 text-[0.62rem] tracking-[0.18em] uppercase text-ink transition hover:bg-blush-soft sm:px-5"
-          >
-            Reload Products
-          </button>
-          <button
-            onClick={() => openEditor()}
-            className="col-span-2 rounded-sm bg-rose-deep px-4 py-3 text-[0.62rem] tracking-[0.18em] uppercase text-cream transition hover:bg-rose sm:col-span-1 sm:px-5"
-          >
-            + Add Product
-          </button>
+          {activeTab === "products" ? (
+            <>
+              <button
+                onClick={() => void loadProducts()}
+                className="rounded-sm border border-line px-4 py-3 text-[0.62rem] tracking-[0.18em] uppercase text-ink transition hover:bg-blush-soft sm:px-5"
+              >
+                Reload Products
+              </button>
+              <button
+                onClick={() => openEditor()}
+                className="col-span-2 rounded-sm bg-rose-deep px-4 py-3 text-[0.62rem] tracking-[0.18em] uppercase text-cream transition hover:bg-rose sm:col-span-1 sm:px-5"
+              >
+                + Add Product
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => setActiveTab("products")}
+              className="rounded-sm border border-line px-4 py-3 text-[0.62rem] tracking-[0.18em] uppercase text-ink transition hover:bg-blush-soft sm:px-5"
+            >
+              Catalogue ({products.length})
+            </button>
+          )}
           <button
             onClick={() => void signOut()}
             className="col-span-2 rounded-sm border border-line px-4 py-3 text-[0.62rem] tracking-[0.18em] uppercase text-muted transition hover:bg-blush-soft sm:col-span-1 sm:px-5"
@@ -495,97 +541,150 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-sm border border-line bg-blush-soft/40 p-5">
-          <p className="text-[0.62rem] tracking-[0.18em] uppercase text-muted">Total Listed</p>
-          <p className="mt-1 font-serif text-3xl text-ink">{products.length}</p>
-        </div>
-        <div className="rounded-sm border border-line bg-blush-soft/40 p-5">
-          <p className="text-[0.62rem] tracking-[0.18em] uppercase text-muted">Best Sellers</p>
-          <p className="mt-1 font-serif text-3xl text-ink">{products.filter((p) => p.isBestSeller).length}</p>
-        </div>
-        <div className="rounded-sm border border-line bg-blush-soft/40 p-5">
-          <p className="text-[0.62rem] tracking-[0.18em] uppercase text-muted">New Pieces</p>
-          <p className="mt-1 font-serif text-3xl text-ink">{products.filter((p) => p.isNew).length}</p>
-        </div>
-      </div>
-
-      <div className="mt-6 grid gap-3 md:grid-cols-[1fr_220px]">
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search products by name, slug, description…"
-          className="rounded-sm border border-line bg-cream px-4 py-3 text-sm text-ink outline-none focus:border-rose"
-        />
-        <select
-          value={collectionFilter}
-          onChange={(e) => setCollectionFilter(e.target.value)}
-          className="rounded-sm border border-line bg-cream px-4 py-3 text-sm text-ink outline-none focus:border-rose"
+      {/* Main Studio Navigation Tabs */}
+      <div className="mt-8 flex border-b border-line gap-2 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => setActiveTab("orders")}
+          className={`flex items-center gap-2.5 px-6 py-3.5 text-xs uppercase tracking-[0.16em] border-b-2 transition whitespace-nowrap ${
+            activeTab === "orders"
+              ? "border-rose-deep text-rose-deep bg-blush-soft/40 font-semibold"
+              : "border-transparent text-muted hover:text-ink hover:bg-blush-soft/20 font-medium"
+          }`}
         >
-          <option value="all">All collections</option>
-          {CATEGORY_OPTIONS.map((cat) => (
-            <option key={cat.slug} value={cat.slug}>{cat.name}</option>
-          ))}
-        </select>
+          <span>📦 Customer Orders</span>
+          {ordersCount > 0 && (
+            <span className="rounded-full bg-rose-deep px-2 py-0.5 text-[0.62rem] font-bold text-cream">
+              {ordersCount}
+            </span>
+          )}
+          {unfulfilledOrdersCount > 0 && (
+            <span className="rounded-full bg-amber-500 px-2 py-0.5 text-[0.58rem] font-bold text-white animate-pulse">
+              {unfulfilledOrdersCount} new
+            </span>
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("products")}
+          className={`flex items-center gap-2.5 px-6 py-3.5 text-xs uppercase tracking-[0.16em] border-b-2 transition whitespace-nowrap ${
+            activeTab === "products"
+              ? "border-rose-deep text-rose-deep bg-blush-soft/40 font-semibold"
+              : "border-transparent text-muted hover:text-ink hover:bg-blush-soft/20 font-medium"
+          }`}
+        >
+          <span>🛍️ Products & Inventory</span>
+          <span className="rounded-full bg-cream-deep px-2 py-0.5 text-[0.62rem] text-ink-soft">
+            {products.length}
+          </span>
+        </button>
       </div>
 
-      {notice && <p className="mt-4 rounded-sm border border-line bg-blush-soft/50 px-4 py-3 text-sm text-rose-deep">{notice}</p>}
-      {loading && <p className="mt-4 text-sm text-muted">Loading…</p>}
+      {/* Tab 1: Orders Management */}
+      {activeTab === "orders" ? (
+        <div className="mt-8">
+          <AdminOrders
+            authHeaders={authHeaders}
+            onOrdersUpdated={handleOrdersUpdated}
+          />
+        </div>
+      ) : (
+        /* Tab 2: Products Catalogue */
+        <div className="mt-8">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="rounded-sm border border-line bg-blush-soft/40 p-5">
+              <p className="text-[0.62rem] tracking-[0.18em] uppercase text-muted">Total Listed</p>
+              <p className="mt-1 font-serif text-3xl text-ink">{products.length}</p>
+            </div>
+            <div className="rounded-sm border border-line bg-blush-soft/40 p-5">
+              <p className="text-[0.62rem] tracking-[0.18em] uppercase text-muted">Best Sellers</p>
+              <p className="mt-1 font-serif text-3xl text-ink">{products.filter((p) => p.isBestSeller).length}</p>
+            </div>
+            <div className="rounded-sm border border-line bg-blush-soft/40 p-5">
+              <p className="text-[0.62rem] tracking-[0.18em] uppercase text-muted">New Pieces</p>
+              <p className="mt-1 font-serif text-3xl text-ink">{products.filter((p) => p.isNew).length}</p>
+            </div>
+          </div>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-2">
-        {filtered.map((product) => (
-          <article key={product.id ?? product.slug} className="rounded-sm border border-line bg-cream p-4 shadow-sm">
-            <div className="flex gap-4">
-              {product.images[0] ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={product.images[0]} alt="" className="h-28 w-24 shrink-0 rounded-sm object-cover" />
-              ) : (
-                <div className="h-28 w-24 shrink-0 rounded-sm bg-blush-soft" />
-              )}
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <h2 className="font-serif text-xl leading-tight text-ink">{product.name}</h2>
-                    <p className="mt-1 break-all text-xs text-muted">/{product.slug}</p>
+          <div className="mt-6 grid gap-3 md:grid-cols-[1fr_220px]">
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search products by name, slug, description…"
+              className="rounded-sm border border-line bg-cream px-4 py-3 text-sm text-ink outline-none focus:border-rose"
+            />
+            <select
+              value={collectionFilter}
+              onChange={(e) => setCollectionFilter(e.target.value)}
+              className="rounded-sm border border-line bg-cream px-4 py-3 text-sm text-ink outline-none focus:border-rose"
+            >
+              <option value="all">All collections</option>
+              {CATEGORY_OPTIONS.map((cat) => (
+                <option key={cat.slug} value={cat.slug}>{cat.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {notice && <p className="mt-4 rounded-sm border border-line bg-blush-soft/50 px-4 py-3 text-sm text-rose-deep">{notice}</p>}
+          {loading && <p className="mt-4 text-sm text-muted">Loading…</p>}
+
+          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+            {filtered.map((product) => (
+              <article key={product.id ?? product.slug} className="rounded-sm border border-line bg-cream p-4 shadow-sm">
+                <div className="flex gap-4">
+                  {product.images[0] ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={product.images[0]} alt="" className="h-28 w-24 shrink-0 rounded-sm object-cover" />
+                  ) : (
+                    <div className="h-28 w-24 shrink-0 rounded-sm bg-blush-soft" />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <h2 className="font-serif text-xl leading-tight text-ink">{product.name}</h2>
+                        <p className="mt-1 break-all text-xs text-muted">/{product.slug}</p>
+                      </div>
+                      <p className="font-serif text-xl text-ink">Rs {product.price.toLocaleString()}</p>
+                    </div>
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">{product.shortDescription || product.description}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {productCategories(product).map((slug) => (
+                        <span key={slug} className="rounded-full bg-blush-soft px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-rose-deep">
+                          {categoryLabel(slug)}
+                        </span>
+                      ))}
+                      {product.colors && product.colors.map((c) => (
+                        <span key={c} className="rounded-full border border-line bg-cream px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-ink-soft">
+                          🎨 {c}
+                        </span>
+                      ))}
+                      {product.isNew && <span className="rounded-full bg-cream-deep px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-rose-deep">New</span>}
+                      {product.isBestSeller && <span className="rounded-full bg-cream-deep px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-rose-deep">Bestseller</span>}
+                    </div>
                   </div>
-                  <p className="font-serif text-xl text-ink">Rs {product.price.toLocaleString()}</p>
                 </div>
-                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">{product.shortDescription || product.description}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {productCategories(product).map((slug) => (
-                    <span key={slug} className="rounded-full bg-blush-soft px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-rose-deep">
-                      {categoryLabel(slug)}
-                    </span>
-                  ))}
-                  {product.colors && product.colors.map((c) => (
-                    <span key={c} className="rounded-full border border-line bg-cream px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-ink-soft">
-                      🎨 {c}
-                    </span>
-                  ))}
-                  {product.isNew && <span className="rounded-full bg-cream-deep px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-rose-deep">New</span>}
-                  {product.isBestSeller && <span className="rounded-full bg-cream-deep px-3 py-1 text-[0.58rem] tracking-[0.16em] uppercase text-rose-deep">Bestseller</span>}
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <button onClick={() => openEditor(product)} className="rounded-sm border border-rose-deep py-3 text-[0.64rem] tracking-[0.18em] uppercase text-rose-deep transition hover:bg-blush-soft">
+                    Edit Everything
+                  </button>
+                  <button onClick={() => void deleteProduct(product)} className="rounded-sm border border-line py-3 text-[0.64rem] tracking-[0.18em] uppercase text-muted transition hover:bg-blush-soft hover:text-rose-deep">
+                    Delete
+                  </button>
                 </div>
-              </div>
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              <button onClick={() => openEditor(product)} className="rounded-sm border border-rose-deep py-3 text-[0.64rem] tracking-[0.18em] uppercase text-rose-deep transition hover:bg-blush-soft">
-                Edit Everything
-              </button>
-              <button onClick={() => void deleteProduct(product)} className="rounded-sm border border-line py-3 text-[0.64rem] tracking-[0.18em] uppercase text-muted transition hover:bg-blush-soft hover:text-rose-deep">
-                Delete
-              </button>
-            </div>
-          </article>
-        ))}
-      </div>
+              </article>
+            ))}
+          </div>
 
-      {!loading && filtered.length === 0 && (
-        <div className="mt-8 rounded-sm border border-line bg-blush-soft/40 p-10 text-center">
-          <h2 className="font-serif text-2xl text-ink">No products shown</h2>
-          <p className="mt-2 text-sm text-muted">Clear search/filter or tap Reload Products.</p>
-          <button onClick={() => void loadProducts()} className="mt-5 rounded-sm bg-rose-deep px-6 py-3 text-[0.68rem] tracking-[0.2em] uppercase text-cream">
-            Reload Products
-          </button>
+          {!loading && filtered.length === 0 && (
+            <div className="mt-8 rounded-sm border border-line bg-blush-soft/40 p-10 text-center">
+              <h2 className="font-serif text-2xl text-ink">No products shown</h2>
+              <p className="mt-2 text-sm text-muted">Clear search/filter or tap Reload Products.</p>
+              <button onClick={() => void loadProducts()} className="mt-5 rounded-sm bg-rose-deep px-6 py-3 text-[0.68rem] tracking-[0.2em] uppercase text-cream">
+                Reload Products
+              </button>
+            </div>
+          )}
         </div>
       )}
 

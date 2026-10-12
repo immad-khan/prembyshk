@@ -89,7 +89,7 @@ export function getMemoryUpload(id: number): MemoryUpload | null {
 
 export function addMemoryOrder(
   order: Omit<MemoryOrder, "id" | "createdAt" | "items">,
-  items: Omit<MemoryOrderItem, "id">[],
+  items: Omit<MemoryOrderItem, "id" | "orderNumber">[],
 ): MemoryOrder {
   const store = getStore();
   const created: MemoryOrder = {
