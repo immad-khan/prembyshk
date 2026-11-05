@@ -4,6 +4,8 @@ export const CATEGORY_OPTIONS = [
   { slug: "rings", name: "Rings" },
   { slug: "bracelets", name: "Bracelets" },
   { slug: "necklaces", name: "Necklaces" },
+  { slug: "watches", name: "Watches" },
+  { slug: "premium", name: "Premium" },
   { slug: "sets", name: "Gift Sets" },
 ] as const;
 
