@@ -99,7 +99,9 @@ const CATEGORY_ORDER: Record<string, number> = {
   rings: 3,
   bracelets: 4,
   necklaces: 5,
-  sets: 6,
+  watches: 6,
+  premium: 7,
+  sets: 8,
 };
 
 export async function getProducts(filters: ShopFilters = {}): Promise<Product[]> {
