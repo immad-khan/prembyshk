@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Product } from "@/db/schema";
 import { useCart } from "@/components/cart-provider";
-import { HeartIcon, GiftIcon, ReturnIcon } from "@/components/icons";
+import { BagIcon, HeartIcon, GiftIcon, ReturnIcon } from "@/components/icons";
 import { Stars } from "@/components/stars";
 import { WhatsAppMark } from "@/components/whatsapp-mark";
 import { formatPrice, formatRating, optimizeImageUrl } from "@/lib/format";
@@ -12,13 +13,46 @@ import { defaultProductMessage, whatsappLink } from "@/lib/whatsapp";
 import { categoryLabel, productCategories } from "@/lib/categories";
 
 export function ProductDetail({ product }: { product: Product }) {
-  const { toggleWishlist, isWishlisted } = useCart();
+  const { toggleWishlist, isWishlisted, addItem, closeCart } = useCart();
+  const router = useRouter();
   const images = product.images.length > 0 ? product.images : ["https://images.pexels.com/photos/16038189/pexels-photo-16038189.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=900"];
   const [activeImage, setActiveImage] = useState(images[0]);
   const [variant, setVariant] = useState(product.colors[0] ?? "Gold");
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
   const wished = isWishlisted(product.slug);
 
-  const message = `${defaultProductMessage(product.name, product.slug)} Variant: ${variant}`;
+  const message = `${defaultProductMessage(product.name, product.slug)} Variant: ${variant}${quantity > 1 ? ` Quantity: ${quantity}` : ""}`;
+
+  const handleAddToCart = () => {
+    addItem(
+      {
+        slug: product.slug,
+        name: product.name,
+        price: product.price,
+        image: activeImage,
+        variant,
+      },
+      quantity,
+    );
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2200);
+  };
+
+  const handleBuyNow = () => {
+    addItem(
+      {
+        slug: product.slug,
+        name: product.name,
+        price: product.price,
+        image: activeImage,
+        variant,
+      },
+      quantity,
+    );
+    closeCart();
+    router.push("/checkout");
+  };
 
   return (
     <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 lg:grid-cols-2 lg:px-8">
@@ -137,26 +171,78 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
         )}
 
-        <div className="mt-7 flex flex-wrap items-center gap-3">
+        {/* Quantity selector */}
+        <div className="mt-6 flex items-center gap-4">
+          <span className="text-[0.66rem] tracking-[0.2em] uppercase text-muted">
+            Quantity:
+          </span>
+          <div className="inline-flex items-center rounded-sm border border-line bg-cream">
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              disabled={quantity <= 1}
+              className="px-3.5 py-1.5 text-sm text-ink-soft transition hover:text-rose-deep disabled:opacity-30"
+              aria-label="Decrease quantity"
+            >
+              −
+            </button>
+            <span className="w-8 text-center text-xs font-medium text-ink">
+              {quantity}
+            </span>
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => q + 1)}
+              className="px-3.5 py-1.5 text-sm text-ink-soft transition hover:text-rose-deep"
+              aria-label="Increase quantity"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        {/* Primary Actions: Add to Cart, Buy Now, Wishlist */}
+        <div className="mt-6 space-y-3">
+          <div className="grid grid-cols-[1fr_1fr_auto] gap-2.5 sm:gap-3">
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className="flex items-center justify-center gap-2 rounded-sm border-2 border-rose-deep bg-cream px-3 py-3.5 text-center text-[0.66rem] sm:text-[0.68rem] font-semibold tracking-[0.18em] uppercase text-rose-deep transition hover:bg-rose-deep hover:text-cream shadow-sm"
+            >
+              <BagIcon className="h-4 w-4 shrink-0" />
+              <span>{added ? "Added ✓" : "Add to Cart"}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              className="flex items-center justify-center gap-2 rounded-sm bg-gradient-to-r from-rose-deep to-rose px-3 py-3.5 text-center text-[0.66rem] sm:text-[0.68rem] font-semibold tracking-[0.18em] uppercase text-cream shadow-md transition hover:from-rose hover:to-rose-deep hover:shadow-lg"
+            >
+              <span>Buy Now</span>
+            </button>
+
+            <button
+              type="button"
+              aria-label="Save to wishlist"
+              onClick={() => toggleWishlist(product.slug)}
+              className={`flex items-center justify-center rounded-sm border border-line px-4 py-3.5 transition hover:border-rose-light ${
+                wished
+                  ? "text-rose-deep bg-blush-soft/50"
+                  : "text-ink-soft hover:text-rose-deep"
+              }`}
+            >
+              <HeartIcon className="h-5 w-5" filled={wished} />
+            </button>
+          </div>
+
           <a
             href={whatsappLink(message)}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-1 items-center justify-center gap-3 rounded-sm bg-gradient-to-r from-rose-deep to-rose px-8 py-4 text-[0.68rem] tracking-[0.24em] uppercase text-cream transition hover:from-rose hover:to-rose-deep"
+            className="flex w-full items-center justify-center gap-2.5 rounded-sm border border-line bg-blush-soft/60 py-3.5 text-[0.66rem] font-medium tracking-[0.2em] uppercase text-ink transition hover:border-rose-light hover:bg-blush-soft hover:text-rose-deep"
           >
-            <WhatsAppMark className="h-5 w-5" />
-            Chat on WhatsApp
+            <WhatsAppMark className="h-4 w-4" />
+            <span>Chat on WhatsApp</span>
           </a>
-
-          <button
-            aria-label="Save to wishlist"
-            onClick={() => toggleWishlist(product.slug)}
-            className={`rounded-sm border border-line p-4 transition hover:border-rose-light ${
-              wished ? "text-rose-deep" : "text-ink-soft"
-            }`}
-          >
-            <HeartIcon className="h-5 w-5" filled={wished} />
-          </button>
         </div>
 
 
