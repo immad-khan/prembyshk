@@ -14,6 +14,8 @@ const CATEGORY_IMAGES: Record<string, string> = {
   rings: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310689/zo9l3ybtmstzdjfufkoi.jpg",
   bracelets: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310896/n4ebiv3q9aymaeufxaqx.jpg",
   necklaces: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789224566/dboummylap7pi7vezczm.jpg",
+  watches: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80",
+  premium: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80",
   sets: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789211119/homfy9htiqvvt5opakc0.jpg",
 };
 
@@ -84,7 +86,7 @@ export default async function HomePage() {
 
       {/* CATEGORY STRIP */}
       <section className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
           {categories.map((category) => (
             <Link
               key={category.slug}
