@@ -738,7 +738,7 @@ export default function AdminPage() {
 
             <div className="mt-6">
               <p className="text-[0.66rem] tracking-[0.18em] uppercase text-muted">Collections / Categories *</p>
-              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {CATEGORY_OPTIONS.map((cat) => {
                   const selected = productCategories(editing).includes(cat.slug);
                   return (
