@@ -22,6 +22,8 @@ const NAV = [
   { label: "Rings", href: "/shop?category=rings" },
   { label: "Bracelets", href: "/shop?category=bracelets" },
   { label: "Necklaces", href: "/shop?category=necklaces" },
+  { label: "Watches", href: "/shop?category=watches" },
+  { label: "Premium", href: "/shop?category=premium" },
   { label: "Gift Sets", href: "/shop?category=sets" },
   { label: "Our Story", href: "/about" },
 ];
@@ -75,7 +77,7 @@ export function SiteHeader() {
 
           <BrandLogo size="sm" className="shrink-0" />
 
-          <nav className="hidden items-center gap-7 text-[0.72rem] font-medium tracking-[0.2em] uppercase text-ink-soft lg:flex">
+          <nav className="hidden items-center gap-4 xl:gap-6 2xl:gap-7 text-[0.68rem] xl:text-[0.72rem] font-medium tracking-[0.14em] xl:tracking-[0.2em] uppercase text-ink-soft whitespace-nowrap lg:flex">
             {NAV.map((item) => (
               <Link
                 key={item.label}
