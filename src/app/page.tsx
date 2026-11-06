@@ -15,6 +15,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   bracelets: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310896/n4ebiv3q9aymaeufxaqx.jpg",
   necklaces: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789224566/dboummylap7pi7vezczm.jpg",
   watches: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80",
+  "hand-chains": "https://images.unsplash.com/photo-1611591475833-28952402120e?auto=format&fit=crop&w=800&q=80",
   wristbands: "https://images.unsplash.com/photo-1611591475833-28952402120e?auto=format&fit=crop&w=800&q=80",
   premium: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80",
   sets: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789211119/homfy9htiqvvt5opakc0.jpg",
