@@ -5,7 +5,7 @@ export const CATEGORY_OPTIONS = [
   { slug: "bracelets", name: "Bracelets" },
   { slug: "necklaces", name: "Necklaces" },
   { slug: "watches", name: "Watches" },
-  { slug: "wristbands", name: "Wrist Bands" },
+  { slug: "hand-chains", name: "Hand Chains" },
   { slug: "premium", name: "Premium" },
   { slug: "sets", name: "Gift Sets" },
 ] as const;
@@ -23,6 +23,14 @@ export function productCategories(product: {
 }
 
 export function categoryLabel(slug: string): string {
-  if (slug === "wrist-bands" || slug === "wristband") return "Wrist Bands";
+  if (
+    slug === "hand-chains" ||
+    slug === "handchains" ||
+    slug === "wrist-bands" ||
+    slug === "wristbands" ||
+    slug === "wristband"
+  ) {
+    return "Hand Chains";
+  }
   return CATEGORY_OPTIONS.find((c) => c.slug === slug)?.name ?? slug;
 }
