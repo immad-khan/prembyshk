@@ -100,8 +100,9 @@ const CATEGORY_ORDER: Record<string, number> = {
   bracelets: 4,
   necklaces: 5,
   watches: 6,
-  premium: 7,
-  sets: 8,
+  wristbands: 7,
+  premium: 8,
+  sets: 9,
 };
 
 export async function getProducts(filters: ShopFilters = {}): Promise<Product[]> {
@@ -109,7 +110,11 @@ export async function getProducts(filters: ShopFilters = {}): Promise<Product[]>
 
   const conditions: (ReturnType<typeof eq> | undefined)[] = [];
   if (filters.category && filters.category !== "all") {
-    conditions.push(matchesCategory(filters.category));
+    const cat =
+      filters.category === "wrist-bands" || filters.category === "wristband"
+        ? "wristbands"
+        : filters.category;
+    conditions.push(matchesCategory(cat));
   }
   if (filters.q) {
     const term = `%${filters.q}%`;
