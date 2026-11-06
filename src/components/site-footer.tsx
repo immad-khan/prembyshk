@@ -25,6 +25,7 @@ const SHOP_LINKS = [
   { label: "Bracelets", href: "/shop?category=bracelets" },
   { label: "Necklaces", href: "/shop?category=necklaces" },
   { label: "Watches", href: "/shop?category=watches" },
+  { label: "Wrist Bands", href: "/shop?category=wristbands" },
   { label: "Premium", href: "/shop?category=premium" },
   { label: "Gift Sets", href: "/shop?category=sets" },
 ];
