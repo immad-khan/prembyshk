@@ -23,7 +23,7 @@ const NAV = [
   { label: "Bracelets", href: "/shop?category=bracelets" },
   { label: "Necklaces", href: "/shop?category=necklaces" },
   { label: "Watches", href: "/shop?category=watches" },
-  { label: "Wrist Bands", href: "/shop?category=wristbands" },
+  { label: "Hand Chains", href: "/shop?category=hand-chains" },
   { label: "Premium", href: "/shop?category=premium" },
   { label: "Gift Sets", href: "/shop?category=sets" },
   { label: "Our Story", href: "/about" },
