@@ -105,9 +105,9 @@ export const COLLECTION_BANNERS = [
     image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310689/zo9l3ybtmstzdjfufkoi.jpg",
   },
   {
-    title: "Necklaces",
+    title: "Pendants",
     body: "Delicate lines that complete every look.",
-    href: "/shop?category=necklaces",
+    href: "/shop?category=pendants",
     image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789224566/dboummylap7pi7vezczm.jpg",
   },
   {
