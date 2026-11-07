@@ -98,15 +98,15 @@ export default async function HomePage() {
               href={`/shop?category=${category.slug}`}
               className="group flex flex-col items-center rounded-lg border border-line/60 bg-cream/90 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-rose-light hover:bg-cream hover:shadow-md"
             >
-              <div className="h-32 w-full overflow-hidden rounded-md bg-blush-soft">
+              <div className="aspect-[3/4] w-full overflow-hidden rounded-md bg-blush-soft/60">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={optimizeImageUrl(
                     CATEGORY_IMAGES[category.slug] || category.imageUrl,
-                    400,
+                    500,
                   )}
                   alt={category.name}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
               <p className="mt-4 font-medium text-[0.72rem] tracking-[0.24em] uppercase text-ink">
@@ -127,15 +127,15 @@ export default async function HomePage() {
             <Link
               key={banner.title}
               href={banner.href}
-              className="group relative flex h-60 flex-col justify-between overflow-hidden rounded-lg p-6 shadow-sm"
+              className="group relative flex h-[420px] sm:h-[460px] lg:h-[480px] flex-col justify-between overflow-hidden rounded-lg p-6 shadow-sm"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={optimizeImageUrl(banner.image, 500)}
+                src={optimizeImageUrl(banner.image, 800)}
                 alt={banner.title}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-[1200ms] group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent via-45% to-black/85" />
               <div className="relative">
                 <h3 className="font-serif text-2xl text-cream">{banner.title}</h3>
               </div>
