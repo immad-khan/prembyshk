@@ -29,7 +29,11 @@ export function ShopFilters({
 }) {
   const router = useRouter();
   const params = useSearchParams();
-  const active = params.get("category") ?? "all";
+  const rawActive = params.get("category") ?? "all";
+  const active =
+    rawActive === "necklaces" || rawActive === "necklace" || rawActive === "pendant"
+      ? "pendants"
+      : rawActive;
   const sort = params.get("sort") ?? "featured";
   const min = params.get("min") ?? "";
   const max = params.get("max") ?? "";
