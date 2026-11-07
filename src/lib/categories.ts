@@ -3,7 +3,7 @@ export const CATEGORY_OPTIONS = [
   { slug: "cuffs", name: "Cuffs" },
   { slug: "rings", name: "Rings" },
   { slug: "bracelets", name: "Bracelets" },
-  { slug: "necklaces", name: "Necklaces" },
+  { slug: "pendants", name: "Pendants" },
   { slug: "watches", name: "Watches" },
   { slug: "hand-chains", name: "Hand Chains" },
   { slug: "premium", name: "Premium" },
@@ -31,6 +31,14 @@ export function categoryLabel(slug: string): string {
     slug === "wristband"
   ) {
     return "Hand Chains";
+  }
+  if (
+    slug === "pendants" ||
+    slug === "pendant" ||
+    slug === "necklaces" ||
+    slug === "necklace"
+  ) {
+    return "Pendants";
   }
   return CATEGORY_OPTIONS.find((c) => c.slug === slug)?.name ?? slug;
 }
