@@ -102,18 +102,18 @@ export const COLLECTION_BANNERS = [
     title: "Rings",
     body: "Timeless pieces for every generation.",
     href: "/shop?category=rings",
-    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310689/zo9l3ybtmstzdjfufkoi.jpg",
+    image: "/images/rings.jpg",
   },
   {
     title: "Pendants",
     body: "Delicate lines that complete every look.",
     href: "/shop?category=pendants",
-    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789224566/dboummylap7pi7vezczm.jpg",
+    image: "/images/pendants.jpg",
   },
   {
     title: "Bracelets",
     body: "Refined designs for your everyday glow.",
     href: "/shop?category=bracelets",
-    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310896/n4ebiv3q9aymaeufxaqx.jpg",
+    image: "/images/bracelets.jpg",
   },
 ];
