@@ -31,7 +31,7 @@ const parisienne = Parisienne({
 export const metadata: Metadata = {
   title: "Prem by SHK — Premium Quality, Exclusively For You",
   description:
-    "Hand-finished luxury fashion jewellery in warm gold, mother-of-pearl and hand-poured enamel. Earrings, rings, bracelets, necklaces and gift sets.",
+    "Hand-finished luxury fashion jewellery in warm gold, mother-of-pearl and hand-poured enamel. Earrings, rings, bracelets, pendants and gift sets.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
