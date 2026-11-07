@@ -3,14 +3,14 @@ import { ProductCard } from "@/components/product-card";
 import { Testimonials } from "@/components/testimonials";
 import { ArrowRight, PROMISE_ICONS } from "@/components/icons";
 import { COLLECTION_BANNERS, JOURNAL, PROMISES } from "@/lib/content";
-import { getBestSellers, getCategories, getNewArrivals } from "@/lib/queries";
+import { getCategories, getNewArrivals } from "@/lib/queries";
 import { optimizeImageUrl } from "@/lib/format";
 
 export const revalidate = 60;
 
 const CATEGORY_IMAGES: Record<string, string> = {
   earrings: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789222584/dbae1tihde4i9v5j61we.jpg",
-  cuffs: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310611/dyzrmzcp6np57hkibgxz.jpg",
+  cuffs: "/images/cuffs.jpg",
   rings: "/images/rings.jpg",
   bracelets: "/images/bracelets.jpg",
   pendants: "/images/pendants.jpg",
@@ -26,9 +26,8 @@ const CATEGORY_IMAGES: Record<string, string> = {
 };
 
 export default async function HomePage() {
-  const [categories, bestSellers, newArrivals] = await Promise.all([
+  const [categories, newArrivals] = await Promise.all([
     getCategories(),
-    getBestSellers(6),
     getNewArrivals(4),
   ]);
 
@@ -150,32 +149,6 @@ export default async function HomePage() {
                 </span>
               </div>
             </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* BEST SELLERS */}
-      <section className="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="eyebrow">Our Signature Selection</p>
-            <h2 className="mt-2 font-serif text-4xl font-light text-ink">
-              Loved Most
-            </h2>
-            <span className="hairline mt-3 block w-16" />
-          </div>
-          <Link
-            href="/shop"
-            className="group flex items-center gap-2 text-[0.66rem] tracking-[0.22em] uppercase text-rose-deep font-medium"
-          >
-            View all best sellers
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
-
-        <div className="mt-8 grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">
-          {bestSellers.map((product, i) => (
-            <ProductCard key={product.id} product={product} priority={i < 3} />
           ))}
         </div>
       </section>
