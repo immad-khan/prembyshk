@@ -96,7 +96,7 @@ export const COLLECTION_BANNERS = [
     title: "Cuffs",
     body: "Sculpted statements that frame your wrist.",
     href: "/shop?category=cuffs",
-    image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789310611/dyzrmzcp6np57hkibgxz.jpg",
+    image: "/images/cuffs.jpg",
   },
   {
     title: "Rings",
