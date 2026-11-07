@@ -5,6 +5,23 @@ import type { Category, Product, Review } from "@/db/schema";
 import { CATEGORY_OPTIONS, productCategories } from "@/lib/categories";
 
 function matchesCategory(slug: string) {
+  if (
+    slug === "pendants" ||
+    slug === "pendant" ||
+    slug === "necklaces" ||
+    slug === "necklace"
+  ) {
+    return or(
+      eq(products.categorySlug, "pendants"),
+      eq(products.categorySlug, "pendant"),
+      eq(products.categorySlug, "necklaces"),
+      eq(products.categorySlug, "necklace"),
+      sql`COALESCE(${products.categorySlugs}, '[]'::jsonb) @> '["pendants"]'::jsonb`,
+      sql`COALESCE(${products.categorySlugs}, '[]'::jsonb) @> '["pendant"]'::jsonb`,
+      sql`COALESCE(${products.categorySlugs}, '[]'::jsonb) @> '["necklaces"]'::jsonb`,
+      sql`COALESCE(${products.categorySlugs}, '[]'::jsonb) @> '["necklace"]'::jsonb`,
+    );
+  }
   return or(
     eq(products.categorySlug, slug),
     sql`COALESCE(${products.categorySlugs}, '[]'::jsonb) @> ${JSON.stringify([slug])}::jsonb`,
@@ -98,7 +115,10 @@ const CATEGORY_ORDER: Record<string, number> = {
   cuffs: 2,
   rings: 3,
   bracelets: 4,
+  pendants: 5,
+  pendant: 5,
   necklaces: 5,
+  necklace: 5,
   watches: 6,
   "hand-chains": 7,
   premium: 8,
