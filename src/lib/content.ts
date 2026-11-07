@@ -93,6 +93,12 @@ export const COLLECTION_BANNERS = [
     image: "https://res.cloudinary.com/hvt6foh0/image/upload/v1789211119/homfy9htiqvvt5opakc0.jpg",
   },
   {
+    title: "Watches",
+    body: "Timeless elegance crafted for every moment.",
+    href: "/shop?category=watches",
+    image: "/images/watches.jpg",
+  },
+  {
     title: "Cuffs",
     body: "Sculpted statements that frame your wrist.",
     href: "/shop?category=cuffs",
