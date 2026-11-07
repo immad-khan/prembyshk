@@ -31,7 +31,13 @@ export default async function ShopPage({
     }),
   ]);
 
-  const activeCategory = categories.find((c) => c.slug === sp.category);
+  const normalizedCategory =
+    sp.category === "necklaces" || sp.category === "necklace" || sp.category === "pendant"
+      ? "pendants"
+      : sp.category;
+  const activeCategory = categories.find(
+    (c) => c.slug === sp.category || c.slug === normalizedCategory,
+  );
   const heading = sp.q
     ? `Results for “${sp.q}”`
     : (activeCategory?.name ?? "All Jewellery");
