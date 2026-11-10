@@ -17,14 +17,14 @@ import {
 
 const NAV = [
   { label: "New In", href: "/shop?sort=newest" },
+  { label: "Premium", href: "/shop?category=premium" },
+  { label: "Watches", href: "/shop?category=watches" },
+  { label: "Rings", href: "/shop?category=rings" },
   { label: "Earrings", href: "/shop?category=earrings" },
   { label: "Cuffs", href: "/shop?category=cuffs" },
-  { label: "Rings", href: "/shop?category=rings" },
   { label: "Bracelets", href: "/shop?category=bracelets" },
   { label: "Pendants", href: "/shop?category=pendants" },
-  { label: "Watches", href: "/shop?category=watches" },
   { label: "Hand Chains", href: "/shop?category=hand-chains" },
-  { label: "Premium", href: "/shop?category=premium" },
   { label: "Gift Sets", href: "/shop?category=sets" },
   { label: "Our Story", href: "/about" },
 ];
