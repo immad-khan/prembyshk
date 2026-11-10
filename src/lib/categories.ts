@@ -1,12 +1,12 @@
 export const CATEGORY_OPTIONS = [
+  { slug: "premium", name: "Premium" },
+  { slug: "watches", name: "Watches" },
+  { slug: "rings", name: "Rings" },
   { slug: "earrings", name: "Earrings" },
   { slug: "cuffs", name: "Cuffs" },
-  { slug: "rings", name: "Rings" },
   { slug: "bracelets", name: "Bracelets" },
   { slug: "pendants", name: "Pendants" },
-  { slug: "watches", name: "Watches" },
   { slug: "hand-chains", name: "Hand Chains" },
-  { slug: "premium", name: "Premium" },
   { slug: "sets", name: "Gift Sets" },
 ] as const;
 
