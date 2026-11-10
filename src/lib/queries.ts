@@ -111,17 +111,17 @@ export type ShopFilters = {
 };
 
 const CATEGORY_ORDER: Record<string, number> = {
-  earrings: 1,
-  cuffs: 2,
+  premium: 1,
+  watches: 2,
   rings: 3,
-  bracelets: 4,
-  pendants: 5,
-  pendant: 5,
-  necklaces: 5,
-  necklace: 5,
-  watches: 6,
-  "hand-chains": 7,
-  premium: 8,
+  earrings: 4,
+  cuffs: 5,
+  bracelets: 6,
+  pendants: 7,
+  pendant: 7,
+  necklaces: 7,
+  necklace: 7,
+  "hand-chains": 8,
   sets: 9,
 };
 
